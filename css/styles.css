@@ -1,0 +1,13 @@
+@import url('base/normalize_8.0.1.css');
+@import url('base/typography.css');
+@import url('vendor/bootstrap_5.3.8.min.css');
+
+* {
+    box-sizing: border-box;
+    font-family: 'Inter', sans-serif;
+}
+html,
+body {
+    width: 100%;
+    min-height: 100%;
+}
