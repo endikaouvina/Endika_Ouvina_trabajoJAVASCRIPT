@@ -1,13 +1,79 @@
 @import url('base/normalize_8.0.1.css');
 @import url('base/typography.css');
 @import url('vendor/bootstrap_5.3.8.min.css');
+@import url('vendor/fontawesome_7.2.0.min.css');
+@import url('vendor/brands_7.2.0.min.css');
+
+/* ESTILOS GENERALES */
 
 * {
     box-sizing: border-box;
     font-family: 'Inter', sans-serif;
+    text-align: center;
 }
 html,
 body {
     width: 100%;
-    min-height: 100%;
+    min-height: 100vh;
 }
+body section {
+    flex: 1;
+}
+h1 {
+    display: inline-block;
+}
+
+/* ENLACES */
+
+/*a,
+a:active {
+    color: #62a4a4;
+    font-weight: bold;
+    text-decoration: none;
+}*/
+header a,
+header a:active,
+nav a,
+nav a:active,
+footer a,
+footer a:active {
+    color: inherit;
+    font-weight: normal;
+    text-decoration: none; /* BORRAR SI ES NECESARIO */
+}
+a:focus-visible {
+    outline: none;
+    outline-offset: 0;
+}
+
+/* HEADER, NAV Y FOOTER */
+
+header,
+nav,
+footer {
+    background-color: #2f4f4f;
+    color: #fff;
+}
+header,
+footer {
+    padding: 0.3rem 0;
+}
+header,
+nav {
+    position: fixed;
+    width: 100%;
+    top: 0;
+}
+nav .col {
+    padding: 0.5rem;
+}
+nav .active {
+    background-color: #62a4a4;
+    color: #000;
+}
+
+/* HACERLO EN JAVASCRIPT */
+nav {
+    top: 56px;
+}
+/* HACERLO EN JAVASCRIPT */
