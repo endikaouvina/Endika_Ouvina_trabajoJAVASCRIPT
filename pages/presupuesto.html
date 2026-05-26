@@ -60,37 +60,39 @@
                             <label for="producto" class="input-group-text">Producto</label>
                             <select name="producto" id="producto" class="form-select">
                                 <option value="" disabled selected>Seleccione un producto</option>
-                                <option value="Pulverizador - 2,99 €">Pulverizador - 2,99 €</option>
-                                <option value="Identificador de maletas - 3,99 €">Identificador de maletas - 3,99 €</option>
-                                <option value="Imanes para coche - 3,99 €">Imanes para coche - 3,99 €</option>
-                                <option value="Funda para pasaporte - 4,99 €">Funda para pasaporte - 4,99 €</option>
-                                <option value="Soporte para mesa - 5,99 €">Soporte para mesa - 5,99 €</option>
-                                <option value="Smart band - 9,99 €">Smart band - 9,99 €</option>
-                                <option value="Cable de carga - 14,99 €">Cable de carga - 14,99 €</option>
-                                <option value="Tarjetero soporte - 14,99 €">Tarjetero soporte - 14,99 €</option>
-                                <option value="Soporte lámpara led - 19,99 €">Soporte lámpara led - 19,99 €</option>
-                                <option value="Altavoz Bluetooth - 19,99 €">Altavoz Bluetooth - 19,99 €</option>
-                                <option value="Cargador de pared - 19,99 €">Cargador de pared - 19,99 €</option>
-                                <option value="Bolso para móvil - 19,99 €">Bolso para móvil - 19,99 €</option>
-                                <option value="Altavoz karaoke - 39,99 €">Altavoz karaoke - 39,99 €</option>
-                                <option value="Gimbal multifunción - 49,99 €">Gimbal multifunción - 49,99 €</option>
-                                <option value="Smartwatch - 49,99 €">Smartwatch - 49,99 €</option>
+                                <option value="Pulverizador - 2.99">Pulverizador - 2,99 €</option>
+                                <option value="Identificador de maletas - 3.99">Identificador de maletas - 3,99 €</option>
+                                <option value="Imanes para coche - 3.99">Imanes para coche - 3,99 €</option>
+                                <option value="Funda para pasaporte - 4.99">Funda para pasaporte - 4,99 €</option>
+                                <option value="Soporte para mesa - 5.99">Soporte para mesa - 5,99 €</option>
+                                <option value="Smart band - 9.99">Smart band - 9,99 €</option>
+                                <option value="Cable de carga - 14.99">Cable de carga - 14,99 €</option>
+                                <option value="Tarjetero soporte - 14.99">Tarjetero soporte - 14,99 €</option>
+                                <option value="Soporte lámpara led - 19.99">Soporte lámpara led - 19,99 €</option>
+                                <option value="Altavoz Bluetooth - 19.99">Altavoz Bluetooth - 19,99 €</option>
+                                <option value="Cargador de pared - 19.99">Cargador de pared - 19,99 €</option>
+                                <option value="Bolso para móvil - 19.99">Bolso para móvil - 19,99 €</option>
+                                <option value="Altavoz karaoke - 39.99">Altavoz karaoke - 39,99 €</option>
+                                <option value="Gimbal multifunción - 49.99">Gimbal multifunción - 49,99 €</option>
+                                <option value="Smartwatch - 49.99">Smartwatch - 49,99 €</option>
                             </select>
                             <span class="input-group-text">
-                                <i class="fa-solid fa-circle-plus fa-xl"></i>
+                                <i id="botonAgregar" class="botonAgregar fa-solid fa-circle-plus fa-xl"></i>
                             </span>
                         </div>
                         <div class="input-group mb-3">
                             <label for="plazo" class="input-group-text">Plazo (días)</label>
                             <input type="number" name="plazo" id="plazo" class="form-control" placeholder="Plazo (días)" step="1" min="1" max="30" value="30" />
                         </div>
-                        <div class="form-check form-switch d-flex justify-content-center align-content-center">
-                            <input type="checkbox" name="extra1" id="extra1" class="form-check-input me-3" role="switch" value="Instalación en domicilio" />
-                            <label class="form-check-label" for="extra1">Embalaje especial - 5 €</label>
-                        </div>
-                        <div class="form-check form-switch d-flex justify-content-center align-content-center mb-3">
-                            <input type="checkbox" name="extra2" id="extra2" class="form-check-input me-3" role="switch" value="Entrega express" />
-                            <label class="form-check-label" for="extra2">Mensaje personalizado - 2 €</label>
+                        <div id="extras">
+                            <div class="form-check form-switch d-flex justify-content-center align-content-center">
+                                <input type="checkbox" name="extra1" id="extra1" class="form-check-input me-3" role="switch" value="Embalaje especial - 5" />
+                                <label class="form-check-label" for="extra1">Embalaje especial - 5 €</label>
+                            </div>
+                            <div class="form-check form-switch d-flex justify-content-center align-content-center mb-3">
+                                <input type="checkbox" name="extra2" id="extra2" class="form-check-input me-3" role="switch" value="Mensaje personalizado - 2" />
+                                <label class="form-check-label" for="extra2">Mensaje personalizado - 2 €</label>
+                            </div>
                         </div>
                         <div class="form-check d-flex justify-content-center align-content-center mb-3">
                             <input type="checkbox" name="condiciones" id="condiciones" class="form-check-input me-3" value="Instalación en domicilio" />
@@ -102,14 +104,7 @@
                 </div>
                 <div class="col">
                     <h3>Presupuesto</h3>
-                    <div id="productos"></div>
-                    <div id="subtotalProductos"></div>
-                    <div id="plazo"></div>
-                    <div id="extras"></div>
-                    <div id="subtotalExtras"></div>
-                    <div id="subtotalPresupuesto"></div>
-                    <div id="dtoPlazo"></div>
-                    <div id="totalPresupuesto"></div>
+                    <div id="presupuesto" class="table-responsive"></div>
                 </div>
             </div>
         </div>
@@ -129,6 +124,6 @@
         </footer>
         <script src="/js/vendor/jquery_4.0.0.min.js"></script>
         <script src="/js/vendor/bootstrap_5.3.8.bundle.min.js"></script>
-        <script src="/js/main.js"></script>
+        <script type="module" src="/js/main.js"></script>
     </body>
 </html>

@@ -18,6 +18,13 @@ nav + div.container {
 h1 {
     display: inline-block;
 }
+i.botonAgregar,
+i.botonEliminar {
+    cursor: pointer;
+}
+i.botonEliminar {
+    color: lightcoral;
+}
 
 /* ENLACES */
 
@@ -72,3 +79,25 @@ nav {
     top: 56px;
 }
 /* HACERLO EN JAVASCRIPT */
+
+/* TABLAS */
+
+.table th:first-of-type,
+.table td:first-of-type {
+    border-left-width: 2px;
+    border-right-width: 2px;
+}
+.table th:last-of-type,
+.table td:last-of-type {
+    border-left-width: 0;
+    border-right-width: 2px;
+}
+.table .table-dark th:first-of-type {
+    border-left-color: #212529;
+}
+.table .table-dark th:last-of-type {
+    border-right-color: #212529;
+}
+.table-group-divider {
+    border-top-width: 2px !important;
+}
