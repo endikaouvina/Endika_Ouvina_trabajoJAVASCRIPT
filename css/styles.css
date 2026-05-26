@@ -16,8 +16,10 @@ body {
     width: 100%;
     min-height: 100vh;
 }
-body section {
+body section,
+nav + div.container {
     flex: 1;
+    padding-top: 105.6px;
 }
 h1 {
     display: inline-block;
@@ -25,12 +27,12 @@ h1 {
 
 /* ENLACES */
 
-/*a,
+a,
 a:active {
     color: #62a4a4;
     font-weight: bold;
     text-decoration: none;
-}*/
+}
 header a,
 header a:active,
 nav a,
@@ -39,7 +41,6 @@ footer a,
 footer a:active {
     color: inherit;
     font-weight: normal;
-    text-decoration: none; /* BORRAR SI ES NECESARIO */
 }
 a:focus-visible {
     outline: none;

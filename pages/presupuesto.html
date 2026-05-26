@@ -4,8 +4,9 @@
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <link rel="shortcut icon" href="/assets/icons/favicon.ico" type="image/x-icon" />
+        <link rel="stylesheet" href="/css/vendor/solid.min.css" />
         <link rel="stylesheet" href="/css/styles.css" />
-        <title>Galería | MOBINEXIA</title>
+        <title>Presupuesto | MOBINEXIA</title>
     </head>
     <body class="d-flex flex-column">
         <!-- CABECERA -->
@@ -25,8 +26,88 @@
                 </div>
             </div>
         </nav>
-        <!-- CONTENIDO PRINCIPAL, DIVIDIDO EN SECCIONES -->
-        <section></section>
+        <!-- CONTENIDO PRINCIPAL -->
+        <div class="container">
+            <h2>Formulario de presupuesto</h2>
+            <p>Por favor, complete el siguiente formulario para solicitar un presupuesto:</p>
+            <div class="row align-items-top justify-content-evenly">
+                <div class="col">
+                    <form id="form">
+                        <h3>Datos de contacto</h3>
+                        <div class="form-floating mb-3">
+                            <input type="text" name="nombre" id="nombre" class="form-control" placeholder="Nombre" />
+                            <label for="nombre">Nombre</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input type="text" name="apellidos" id="apellidos" class="form-control" placeholder="Apellidos" />
+                            <label for="apellidos">Apellidos</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input type="tel" name="telefono" id="telefono" class="form-control" placeholder="Teléfono" />
+                            <label for="telefono">Teléfono</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input type="email" name="email" id="email" class="form-control" placeholder="Correo electrónico" />
+                            <label for="email">Correo electrónico</label>
+                        </div>
+                        <h3>Opciones</h3>
+                        <div class="input-group mb-3">
+                            <label for="producto" class="input-group-text">Producto</label>
+                            <select name="producto" id="producto" class="form-select">
+                                <option value="" disabled selected>Seleccione un producto</option>
+                                <option value="Pulverizador - 2,99 €">Pulverizador - 2,99 €</option>
+                                <option value="Identificador de maletas - 3,99 €">Identificador de maletas - 3,99 €</option>
+                                <option value="Imanes para coche - 3,99 €">Imanes para coche - 3,99 €</option>
+                                <option value="Funda para pasaporte - 4,99 €">Funda para pasaporte - 4,99 €</option>
+                                <option value="Soporte para mesa - 5,99 €">Soporte para mesa - 5,99 €</option>
+                                <option value="Smart band - 9,99 €">Smart band - 9,99 €</option>
+                                <option value="Cable de carga - 14,99 €">Cable de carga - 14,99 €</option>
+                                <option value="Tarjetero soporte - 14,99 €">Tarjetero soporte - 14,99 €</option>
+                                <option value="Soporte lámpara led - 19,99 €">Soporte lámpara led - 19,99 €</option>
+                                <option value="Altavoz Bluetooth - 19,99 €">Altavoz Bluetooth - 19,99 €</option>
+                                <option value="Cargador de pared - 19,99 €">Cargador de pared - 19,99 €</option>
+                                <option value="Bolso para móvil - 19,99 €">Bolso para móvil - 19,99 €</option>
+                                <option value="Altavoz karaoke - 39,99 €">Altavoz karaoke - 39,99 €</option>
+                                <option value="Gimbal multifunción - 49,99 €">Gimbal multifunción - 49,99 €</option>
+                                <option value="Smartwatch - 49,99 €">Smartwatch - 49,99 €</option>
+                            </select>
+                            <span class="input-group-text">
+                                <i class="fa-solid fa-circle-plus fa-xl"></i>
+                            </span>
+                        </div>
+                        <div class="input-group mb-3">
+                            <label for="plazo" class="input-group-text">Plazo (días)</label>
+                            <input type="number" name="plazo" id="plazo" class="form-control" placeholder="Plazo (días)" step="1" min="1" max="30" value="30" />
+                        </div>
+                        <div class="form-check form-switch d-flex justify-content-center align-content-center">
+                            <input type="checkbox" name="extra1" id="extra1" class="form-check-input me-3" role="switch" value="Instalación en domicilio" />
+                            <label class="form-check-label" for="extra1">Embalaje especial - 5 €</label>
+                        </div>
+                        <div class="form-check form-switch d-flex justify-content-center align-content-center mb-3">
+                            <input type="checkbox" name="extra2" id="extra2" class="form-check-input me-3" role="switch" value="Entrega express" />
+                            <label class="form-check-label" for="extra2">Mensaje personalizado - 2 €</label>
+                        </div>
+                        <div class="form-check d-flex justify-content-center align-content-center mb-3">
+                            <input type="checkbox" name="condiciones" id="condiciones" class="form-check-input me-3" value="Instalación en domicilio" />
+                            <label class="form-check-label" for="condiciones">Acepto las <a href="#" target="_blank">condiciones de privacidad</a>.</label>
+                        </div>
+                        <button type="reset" class="btn btn-dark">Resetear formulario</button>
+                        <button type="submit" class="btn btn-dark">Enviar formulario</button>
+                    </form>
+                </div>
+                <div class="col">
+                    <h3>Presupuesto</h3>
+                    <div id="productos"></div>
+                    <div id="subtotalProductos"></div>
+                    <div id="plazo"></div>
+                    <div id="extras"></div>
+                    <div id="subtotalExtras"></div>
+                    <div id="subtotalPresupuesto"></div>
+                    <div id="dtoPlazo"></div>
+                    <div id="totalPresupuesto"></div>
+                </div>
+            </div>
+        </div>
         <!-- PIE DE PÁGINA -->
         <footer>
             <div class="container">
