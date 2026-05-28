@@ -82,7 +82,7 @@ function insertarElementos(body, elementos, cabecera, pie) {
     // Insertamos la cabecera de los elementos
     body.appendChild(crearFila('th', cabecera, 'Precio', 'dark', false, false, false));
 
-    // Insertamos cada elemento al body de la tabla y el precio al subtotal
+    // Insertamos cada elemento al body de la tabla y el precio a los subtotales
     elementos.forEach((elemento, index) => {
         let actual;
         let botonEliminar = false;
@@ -103,6 +103,7 @@ function insertarElementos(body, elementos, cabecera, pie) {
     body.appendChild(crearFila('th', pie, subtotalElementos, 'secondary', true, false, true));
 }
 
+// Función para calcular el presupuesto
 function calcularPresupuesto() {
     if (carritoProductos.length > 0) {
         // Limpiamos el presupuesto y reseteamos variables
@@ -127,7 +128,7 @@ function calcularPresupuesto() {
         // Insertamos el plazo
         let plazo = parseInt(inputPlazo.value);
         let descuento;
-        if (plazo <= 10) {
+        if (plazo <= 12) {
             descuento = 2;
         } else if (plazo <= 20) {
             descuento = 5;
@@ -143,7 +144,7 @@ function calcularPresupuesto() {
         let presupuestoFinal = subtotalPresupuesto - precioDescuento;
         body.appendChild(crearFila('th', 'Presupuesto', 'Precio', 'dark', false, false, false));
         body.appendChild(crearFila('th', 'Subtotal presupuesto', subtotalPresupuesto, 'secondary', false, false, true));
-        body.appendChild(crearFila('th', 'Precio descuento', precioDescuento, 'secondary', true, false, true));
+        body.appendChild(crearFila('th', 'Descuento a aplicar', precioDescuento, 'secondary', true, false, true));
         body.appendChild(crearFila('th', 'Presupuesto final', presupuestoFinal, 'dark', false, false, true));
 
         // Completamos la tabla y la mostramos por pantalla
@@ -158,12 +159,19 @@ function calcularPresupuesto() {
             });
         });
     } else {
-        presupuesto.innerHTML = `
-            <div class="text-danger">Selecciona un producto para calcular el presupuesto.<br>Podrás añadir y eliminar productos, cambiar el plazo (te dará un descuento u otro dependiendo del número de días), así como seleccionar y deseleccionar extras.</div>
-        `;
+        resetearPresupuesto();
     }
 }
 
+// Función para resetear el presupuesto
+export function resetearPresupuesto() {
+    presupuesto.innerHTML = `
+            <div class="text-warning-emphasis text-opacity-75">Selecciona un producto y un plazo válidos para calcular el presupuesto.<br>Podrás añadir y eliminar productos, cambiar el plazo (te dará un descuento u otro dependiendo del número de días), así como seleccionar y deseleccionar extras.</div>
+        `;
+    carritoProductos = [];
+}
+
+// Función "main" de la lógica para calcular el presupuesto
 export function prepararPresupuesto() {
     cargarElementosDOMPresupuesto();
     botonAgregar.addEventListener('click', agregarProducto);
