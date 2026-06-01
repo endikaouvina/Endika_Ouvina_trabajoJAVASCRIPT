@@ -1,7 +1,10 @@
 'use strict';
 
+import { validarProducto } from './formValidation.js';
+import { validarPlazo } from './formValidation.js';
+
 // Variables generales
-let carritoProductos = [];
+export let carritoProductos = [];
 let extrasSeleccionados;
 let subtotalProductos = 0;
 let subtotalExtras = 0;
@@ -18,7 +21,7 @@ function cargarElementosDOMPresupuesto() {
     selectProducto = document.querySelector('#producto');
     botonAgregar = document.querySelector('#botonAgregar');
     inputPlazo = document.querySelector('#plazo');
-    inputsExtras = document.querySelectorAll('[type = "checkbox"]');
+    inputsExtras = document.querySelectorAll('#extras [type = "checkbox"]');
     presupuesto = document.querySelector('#presupuesto');
 }
 
@@ -29,6 +32,7 @@ function agregarProducto() {
     const [nombreProducto, precioProducto] = valorSeleccionado.split(' - ');
     const precio = parseFloat(precioProducto);
     carritoProductos.push({ nombre: nombreProducto, precio });
+    console.log(carritoProductos);
     calcularPresupuesto();
 }
 
@@ -105,7 +109,7 @@ function insertarElementos(body, elementos, cabecera, pie) {
 
 // Función para calcular el presupuesto
 function calcularPresupuesto() {
-    if (carritoProductos.length > 0) {
+    if (carritoProductos.length > 0 && validarPlazo(true)) {
         // Limpiamos el presupuesto y reseteamos variables
         presupuesto.innerHTML = '';
         subtotalProductos = 0;
@@ -120,7 +124,7 @@ function calcularPresupuesto() {
         insertarElementos(body, carritoProductos, 'Producto', 'Subtotal productos');
 
         // Insertamos los extras
-        extrasSeleccionados = document.querySelectorAll('[type = "checkbox"]:checked');
+        extrasSeleccionados = document.querySelectorAll('#extras [type = "checkbox"]:checked');
         if (extrasSeleccionados.length > 0) {
             insertarElementos(body, extrasSeleccionados, 'Extra', 'Subtotal extras');
         }
@@ -168,14 +172,28 @@ export function resetearPresupuesto() {
     presupuesto.innerHTML = `
             <div class="text-warning-emphasis text-opacity-75">Selecciona un producto y un plazo válidos para calcular el presupuesto.<br>Podrás añadir y eliminar productos, cambiar el plazo (te dará un descuento u otro dependiendo del número de días), así como seleccionar y deseleccionar extras.</div>
         `;
+}
+
+// Función para resetear el carrito
+export function resetearCarrito() {
     carritoProductos = [];
 }
 
 // Función "main" de la lógica para calcular el presupuesto
 export function prepararPresupuesto() {
     cargarElementosDOMPresupuesto();
-    botonAgregar.addEventListener('click', agregarProducto);
-    inputPlazo.addEventListener('change', calcularPresupuesto);
+    botonAgregar.addEventListener('click', () => {
+        if (validarProducto(false)) {
+            agregarProducto();
+        }
+    });
+    inputPlazo.addEventListener('input', () => {
+        if (validarPlazo(false)) {
+            calcularPresupuesto();
+        } else {
+            resetearPresupuesto();
+        }
+    });
     inputsExtras.forEach((checkbox) => {
         checkbox.addEventListener('change', calcularPresupuesto);
     });
