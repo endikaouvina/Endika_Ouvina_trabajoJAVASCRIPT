@@ -113,3 +113,13 @@ nav {
     justify-items: start;
     justify-content: center;
 }
+
+/* OTROS */
+
+#map {
+    height: 600px;
+    width: 100%;
+}
+.datos span {
+    font-weight: bold;
+}
