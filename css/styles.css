@@ -10,8 +10,7 @@ body {
     width: 100%;
     min-height: 100vh;
 }
-body section,
-nav + div.container {
+nav + * {
     flex: 1;
     padding-top: 105.6px;
 }
@@ -114,7 +113,7 @@ nav {
     justify-content: center;
 }
 
-/* OTROS */
+/* MAPA */
 
 #map {
     height: 600px;
@@ -122,4 +121,9 @@ nav {
 }
 .datos span {
     font-weight: bold;
+}
+.leaflet-top.leaflet-right,
+.leaflet-top.leaflet-right * {
+    overflow-y: auto;
+    overscroll-behavior: contain;
 }
