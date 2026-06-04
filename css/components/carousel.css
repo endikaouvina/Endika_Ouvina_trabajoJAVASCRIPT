@@ -1,0 +1,92 @@
+.crl {
+    height: 50vh;
+}
+.crl__inner {
+    display: flex;
+    align-items: center;
+    position: relative;
+    height: 100%;
+}
+.crl__slider {
+    display: flex;
+    justify-content: space-between;
+    transition: all 0.5s ease-in-out;
+    width: 100%;
+    height: 100%;
+}
+.crl__slide {
+    display: flex;
+    flex: 1;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    cursor: grabbing;
+}
+.crl__slide--prev,
+.crl__slide--next {
+    opacity: 0.5;
+    transform: scale(0.5);
+}
+.crl__slide--active {
+    z-index: 10;
+}
+.crl__slide img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+.crl__slide.dragging {
+    cursor: pointer;
+}
+.crl__control {
+    position: absolute;
+    top: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 40px;
+    height: 40px;
+    background-color: #333;
+    color: #fff;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    z-index: 100;
+}
+.crl__control--prev {
+    left: 0;
+    transform: translate(-50%, -50%);
+}
+.crl__control--next {
+    right: 0;
+    transform: translate(50%, -50%);
+}
+.crl__dots {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+.crl__dot {
+    width: 10px;
+    height: 10px;
+    background-color: #bbb;
+    border-radius: 50%;
+    margin: 0 5px;
+    transition: all 0.3s ease-in-out;
+    cursor: pointer;
+}
+.crl__dot--active {
+    background-color: #333;
+    transform: scale(1.5);
+}
+.crl__dot--hidden {
+    display: none;
+}
+.crl__dot--edge {
+    transform: scale(0.7);
+    opacity: 0.5;
+}
