@@ -1,7 +1,7 @@
 'use strict';
 
 // Variables globales
-const URL_NOTICIAS = '/resources/data/noticias.json';
+const URL_NOTICIAS = '../resources/data/noticias.json';
 
 // Elementos del DOM
 let main;

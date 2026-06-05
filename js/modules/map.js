@@ -58,7 +58,6 @@ function error() {
 // Función para evitar la propagación de scroll y click en la ruta
 function evitarPropagacion() {
     divRuta.forEach((div) => {
-        console.log(div);
         L.DomEvent.disableScrollPropagation(div);
         L.DomEvent.disableClickPropagation(div);
     });
