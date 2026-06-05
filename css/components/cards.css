@@ -1,0 +1,12 @@
+.card {
+    padding: 1rem;
+}
+.card img {
+    border-radius: 10px;
+}
+.card-body {
+    padding: 1rem 0 0 0;
+}
+.card h3 {
+    font-size: 1.55rem;
+}

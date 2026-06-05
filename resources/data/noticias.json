@@ -1,0 +1,26 @@
+[
+    {
+        "src": "/assets/img/noticia_carga.webp",
+        "alt": "Imagen donde se ve un móvil cargándose.",
+        "title": "Carga",
+        "text": "Carga el móvil donde quieras.",
+        "buttonText": "Descubrir",
+        "href": "#"
+    },
+    {
+        "src": "/assets/img/noticia_smartwatch.webp",
+        "alt": "Imagen donde se ve una muñeca con un smart watch puesto.",
+        "title": "Smartwatch",
+        "text": "Ten la hora siempre a mano.",
+        "buttonText": "Descubrir",
+        "href": "#"
+    },
+    {
+        "src": "/assets/img/noticia_soporte.webp",
+        "alt": "Imagen donde se ve un coche con un soporte para móvil puesto.",
+        "title": "Soporte",
+        "text": "Apoya el móvil para ver tu serie favorita.",
+        "buttonText": "Descubrir",
+        "href": "#"
+    }
+]

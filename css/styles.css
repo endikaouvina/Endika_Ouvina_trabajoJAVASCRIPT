@@ -10,9 +10,18 @@ body {
     width: 100%;
     min-height: 100vh;
 }
-nav + * {
+main {
     flex: 1;
     padding-top: 105.6px;
+}
+section {
+    padding: 2rem 1rem;
+}
+section:nth-child(odd) {
+    background-color: #85abff;
+}
+section:nth-child(even) {
+    background-color: #c2d5ff;
 }
 h1 {
     display: inline-block;
@@ -76,7 +85,7 @@ nav .active {
 
 /* HACERLO EN JAVASCRIPT */
 nav {
-    top: 56px;
+    top: 65.6px;
 }
 /* HACERLO EN JAVASCRIPT */
 
