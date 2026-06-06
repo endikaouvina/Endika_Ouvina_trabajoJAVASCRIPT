@@ -1,7 +1,10 @@
 'use strict';
 
-// Variables generales
-const imagenesCarousel = [
+// Elementos del DOM
+const CAROUSEL = document.querySelector('#crl');
+
+// Variables globales
+const IMGS_CAROUSEL = [
     { src: '../assets/img/altavoz_bluetooth.jpg', alt: 'Altavoz Bluetooth' },
     { src: '../assets/img/altavoz_karaoke.jpg', alt: 'Altavoz Karaoke' },
     { src: '../assets/img/auriculares_alpha.jpg', alt: 'Auricular Alpha' },
@@ -31,46 +34,38 @@ let currentIndex = 0;
 let isDragging = false;
 let startX = 0;
 
-// Elementos del DOM
-let carouselContainer;
-
-// Función para cargar los elementos del DOM
-function cargarElementosDOMCarousel() {
-    carouselContainer = document.querySelector('#crl');
-}
-
 // Función para actualizar el carrusel
 function updateCarousel() {
-    // Variables y elementos del DOM
-    const prevIndex = (currentIndex - 1 + imagenesCarousel.length) % imagenesCarousel.length;
-    const nextIndex = (currentIndex + 1) % imagenesCarousel.length;
+    // Variables locales y elementos del DOM
+    const prevIndex = (currentIndex - 1 + IMGS_CAROUSEL.length) % IMGS_CAROUSEL.length;
+    const nextIndex = (currentIndex + 1) % IMGS_CAROUSEL.length;
 
     const imgPrev = document.querySelector('.crl__slide--prev img');
     const imgCurrent = document.querySelector('.crl__slide--active img');
     const imgNext = document.querySelector('.crl__slide--next img');
     const dots = document.querySelectorAll('.crl__dot');
 
-    // Actualizamos las imágenes
-    imgPrev.src = imagenesCarousel[prevIndex].src;
-    imgPrev.alt = imagenesCarousel[prevIndex].alt;
-    imgCurrent.src = imagenesCarousel[currentIndex].src;
-    imgCurrent.alt = imagenesCarousel[currentIndex].alt;
-    imgNext.src = imagenesCarousel[nextIndex].src;
-    imgNext.alt = imagenesCarousel[nextIndex].alt;
+    // Se actualizan los atributos de las imágenes
+    imgPrev.src = IMGS_CAROUSEL[prevIndex].src;
+    imgPrev.alt = IMGS_CAROUSEL[prevIndex].alt;
+    imgCurrent.src = IMGS_CAROUSEL[currentIndex].src;
+    imgCurrent.alt = IMGS_CAROUSEL[currentIndex].alt;
+    imgNext.src = IMGS_CAROUSEL[nextIndex].src;
+    imgNext.alt = IMGS_CAROUSEL[nextIndex].alt;
 
-    // Actualizamos los puntos
+    // Se actualizan los puntos
     dots.forEach((dot, index) => {
         if (index === currentIndex) {
             dot.classList.add('crl__dot--active');
         } else {
             dot.classList.remove('crl__dot--active');
         }
-        if (imagenesCarousel.length > 7 && ((currentIndex <= 3 && index === 6) || (currentIndex >= 4 && currentIndex <= imagenesCarousel.length - 4 && (index === currentIndex - 3 || index === currentIndex + 3)) || (currentIndex >= imagenesCarousel.length - 3 && index === imagenesCarousel.length - 7))) {
+        if (IMGS_CAROUSEL.length > 7 && ((currentIndex <= 3 && index === 6) || (currentIndex >= 4 && currentIndex <= IMGS_CAROUSEL.length - 4 && (index === currentIndex - 3 || index === currentIndex + 3)) || (currentIndex >= IMGS_CAROUSEL.length - 3 && index === IMGS_CAROUSEL.length - 7))) {
             dot.classList.add('crl__dot--edge');
         } else {
             dot.classList.remove('crl__dot--edge');
         }
-        if ((currentIndex <= 3 && index >= 7) || (currentIndex >= 4 && currentIndex <= imagenesCarousel.length - 4 && (index < currentIndex - 3 || index > currentIndex + 3)) || (currentIndex >= imagenesCarousel.length - 3 && index < imagenesCarousel.length - 7)) {
+        if ((currentIndex <= 3 && index >= 7) || (currentIndex >= 4 && currentIndex <= IMGS_CAROUSEL.length - 4 && (index < currentIndex - 3 || index > currentIndex + 3)) || (currentIndex >= IMGS_CAROUSEL.length - 3 && index < IMGS_CAROUSEL.length - 7)) {
             dot.classList.add('crl__dot--hidden');
         } else {
             dot.classList.remove('crl__dot--hidden');
@@ -90,11 +85,11 @@ function agregarArrastre(element) {
         if (isDragging) {
             const endX = e.pageX - startX;
             if (endX > 100) {
-                currentIndex = (currentIndex - 1 + imagenesCarousel.length) % imagenesCarousel.length;
+                currentIndex = (currentIndex - 1 + IMGS_CAROUSEL.length) % IMGS_CAROUSEL.length;
                 isDragging = false;
                 updateCarousel();
             } else if (endX < -100) {
-                currentIndex = (currentIndex + 1) % imagenesCarousel.length;
+                currentIndex = (currentIndex + 1) % IMGS_CAROUSEL.length;
                 isDragging = false;
                 updateCarousel();
             }
@@ -108,8 +103,8 @@ function agregarArrastre(element) {
 }
 
 // Función para construir la estructura del carrusel
-function construirEstructuraCarousel() {
-    // Creamos los elementos necesarios
+function cargarCarousel() {
+    // Se crean los elementos necesarios
     const crlInner = document.createElement('div');
     const crlSlider = document.createElement('div');
     const crlImgPrev = document.createElement('div');
@@ -121,7 +116,7 @@ function construirEstructuraCarousel() {
     const btnNextIcon = document.createElement('i');
     const dotsContainer = document.createElement('div');
 
-    // Agregamos las clases correspondientes
+    // Se agregan las clases necesarias
     crlInner.classList.add('crl__inner');
     crlSlider.classList.add('crl__slider');
     crlImgPrev.classList.add('crl__slide', 'crl__slide--prev');
@@ -133,7 +128,7 @@ function construirEstructuraCarousel() {
     btnNextIcon.classList.add('fa-solid', 'fa-angle-right', 'fa-lg');
     dotsContainer.classList.add('crl__dots');
 
-    // Construimos la estructura del carrusel
+    // Se construye la estructura del carrusel
     btnPrev.appendChild(btnPrevIcon);
     btnNext.appendChild(btnNextIcon);
     crlSlider.appendChild(crlImgPrev);
@@ -142,53 +137,46 @@ function construirEstructuraCarousel() {
     crlInner.appendChild(btnPrev);
     crlInner.appendChild(crlSlider);
     crlInner.appendChild(btnNext);
-    carouselContainer.appendChild(crlInner);
-    carouselContainer.appendChild(dotsContainer);
+    CAROUSEL.appendChild(crlInner);
+    CAROUSEL.appendChild(dotsContainer);
 
-    // Agregamos las imágenes a los contenedores correspondientes
+    // Se agregan las imágenes a los divs correspondientes
     [crlImgPrev, crlImgCurrent, crlImgNext].forEach((crlImg, index) => {
         const img = document.createElement('img');
         img.draggable = false;
         crlImg.appendChild(img);
     });
 
-    // Agregamos un punto para cada una de las imágenes
-    imagenesCarousel.forEach((img, index) => {
+    // Se agrega un punto y su evento, por cada una de las imágenes
+    IMGS_CAROUSEL.forEach((img, index) => {
         const dot = document.createElement('div');
         dot.classList.add('crl__dot');
         dotsContainer.appendChild(dot);
 
-        // Agregamos el evento click a cada punto
         dot.addEventListener('click', () => {
             currentIndex = index;
             updateCarousel();
         });
     });
 
-    // Agregamos los eventos a los botones
+    // Se agregan los eventos a los botones
     btnPrev.addEventListener('click', () => {
-        currentIndex = (currentIndex - 1 + imagenesCarousel.length) % imagenesCarousel.length;
+        currentIndex = (currentIndex - 1 + IMGS_CAROUSEL.length) % IMGS_CAROUSEL.length;
         updateCarousel();
     });
     btnNext.addEventListener('click', () => {
-        currentIndex = (currentIndex + 1) % imagenesCarousel.length;
+        currentIndex = (currentIndex + 1) % IMGS_CAROUSEL.length;
         updateCarousel();
     });
 
-    // Agregamos la funcionalidad de arrastre
+    // Se agrega la funcionalidad de arrastre
     agregarArrastre(crlImgPrev);
     agregarArrastre(crlImgCurrent);
     agregarArrastre(crlImgNext);
 
-    // Inicializamos el carrusel
+    // Se inicializa el carrusel
     updateCarousel();
 }
 
-// Función "main" del carrusel
-function iniciarCarousel() {
-    cargarElementosDOMCarousel();
-    construirEstructuraCarousel();
-}
-
-// Declaramos las exportaciones necesarias
-export { iniciarCarousel };
+// Eportación de dependencias
+export { cargarCarousel };

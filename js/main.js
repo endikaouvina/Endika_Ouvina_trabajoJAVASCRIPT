@@ -1,19 +1,23 @@
 'use strict';
 
-import { cargarNoticias } from './modules/json.js';
-import { iniciarCarousel } from './modules/carousel.js';
-import { generarMapa } from './modules/map.js';
-import { prepararFormulario } from './modules/formValidation.js';
-import { prepararPresupuesto } from './modules/presupuesto.js';
+// Dependencias de la aplicación
+import { cargarJSON } from './modules/json.js';
+import { cargarCarousel } from './modules/carousel.js';
+import { crearMapa } from './modules/map.js';
+import { eventosFormulario } from './modules/formValidation.js';
+import { eventosPresupuesto } from './modules/presupuesto.js';
 
-let urlPagina = window.location.href;
-if (urlPagina.includes('galeria.html')) {
-    iniciarCarousel();
-} else if (urlPagina.includes('contacto.html')) {
-    generarMapa();
-} else if (urlPagina.includes('presupuesto.html')) {
-    prepararFormulario();
-    prepararPresupuesto();
-} else {
-    cargarNoticias();
+// Variables globales
+const PAGE_URL = window.location.pathname;
+
+// Inicialización específica para cada página
+if (PAGE_URL === '/' || PAGE_URL.includes('index.html')) {
+    cargarJSON();
+} else if (PAGE_URL.includes('galeria.html')) {
+    cargarCarousel();
+} else if (PAGE_URL.includes('contacto.html')) {
+    crearMapa();
+} else if (PAGE_URL.includes('presupuesto.html')) {
+    eventosFormulario();
+    eventosPresupuesto();
 }

@@ -1,19 +1,14 @@
 'use strict';
 
+// Elementos del DOM
+const MAIN = document.querySelector('main');
+
 // Variables globales
 const URL_NOTICIAS = './resources/data/noticias.json';
 
-// Elementos del DOM
-let main;
-
-// Función para cargar los elementos del DOM
-function cargarElementosDOMJSON() {
-    main = document.querySelector('main');
-}
-
-// Función para crear las cartas
+// Función para crear las tarjetas
 function createJSONCard(item) {
-    // Creamos los elementos necesarios
+    // Se crean los elementos necesarios
     const card = document.createElement('div');
     const imgDiv = document.createElement('div');
     const img = document.createElement('img');
@@ -22,12 +17,12 @@ function createJSONCard(item) {
     const text = document.createElement('p');
     const button = document.createElement('a');
 
-    // Agregamos los atributos necesarios
+    // Se agregan los atributos necesarios
     img.src = item.src;
     img.alt = item.alt;
     button.href = item.href;
 
-    // Agregamos las clases necesarias
+    // Se agregan las clases necesarias
     card.classList.add('col', 'card', 'mx-3');
     imgDiv.classList.add('h-100', 'd-flex', 'flex-column', 'justify-content-center');
     img.classList.add('card-img');
@@ -36,12 +31,12 @@ function createJSONCard(item) {
     text.classList.add('card-text');
     button.classList.add('btn', 'btn-secondary');
 
-    // Agregamos el contenido
+    // Se agrega el contenido de los elementos
     title.textContent = item.title;
     text.textContent = item.text;
     button.textContent = item.buttonText;
 
-    // Construimos la estructura de la tarjeta
+    // Se construye la estructura de la tarjeta
     imgDiv.appendChild(img);
     body.appendChild(title);
     body.appendChild(text);
@@ -49,26 +44,26 @@ function createJSONCard(item) {
     card.appendChild(imgDiv);
     card.appendChild(body);
 
-    // Devolvemos la tarjeta
+    // Se devuelve la tarjeta
     return card;
 }
 
-// Función para crear el contenido
+// Función para crear el contenido de la página
 function createJSONContent(json) {
-    // Creamos los elementos necesarios
+    // Se crean los elementos necesarios
     const section = document.createElement('section');
     const container = document.createElement('div');
     const title = document.createElement('h2');
     const row = document.createElement('div');
 
-    // Agregamos las clases necesarias
+    // Se agregan las clases necesarias
     container.classList.add('container');
     row.classList.add('row');
 
-    // Agregamos el contenido
+    // Se agrega el contenido de los elementos
     title.textContent = 'DESCUBRE NUESTRO CONTENIDO';
 
-    // Construimos la estructura del contenido
+    // Se construye la estructura del contenido
     json.forEach((item) => {
         row.appendChild(createJSONCard(item));
     });
@@ -76,12 +71,12 @@ function createJSONContent(json) {
     container.appendChild(row);
     section.appendChild(container);
 
-    // Devolvemos el contenido
+    // Se devuelve el contenido
     return section;
 }
 
 // Función para cargar el JSON
-async function cargarNoticias(params) {
+async function cargarJSON(params) {
     try {
         const respuesta = await fetch(URL_NOTICIAS);
         if (!respuesta.ok) {
@@ -89,14 +84,13 @@ async function cargarNoticias(params) {
         }
         const json = await respuesta.json();
 
-        // Cargamos el contenido del JSON, creamos el contenido HTML y lo insertamos en la página
-        cargarElementosDOMJSON();
+        // Creación del contenido HTML
         let content = createJSONContent(json);
-        main.insertBefore(content, main.children[0]);
+        MAIN.insertBefore(content, MAIN.children[0]);
     } catch (error) {
         console.error('Error al cargar el JSON:', error);
     }
 }
 
-// Declaramos las exportaciones necesarias
-export { cargarNoticias };
+// Exportación de dependencias
+export { cargarJSON };
