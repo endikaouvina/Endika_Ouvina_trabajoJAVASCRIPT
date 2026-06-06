@@ -4,11 +4,29 @@
 const RUTA_DIV = document.querySelectorAll('.leaflet-routing-container');
 
 // Variables globales
+const COMPANY_LAT = 40.03233455;
+const COMPANY_LNG = -5.7437511;
 let options = {
     enableHighAccuracy: true,
-    timeout: 5000,
     maximumAge: 0,
 };
+let map;
+let companyMarker;
+
+// Función para crear el mapa base con las coordenadas de la empresa
+function initMap() {
+    map = L.map('map', {
+        center: [COMPANY_LAT, COMPANY_LNG],
+        zoom: 14,
+    });
+
+    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a> contributors',
+    }).addTo(map);
+
+    // Se agrega un marcador para la ubicación de la empresa
+    companyMarker = L.marker([COMPANY_LAT, COMPANY_LNG]).addTo(map);
+}
 
 // Función para evitar la propagación de scroll y click en la ruta
 function evitarPropagacion() {
@@ -24,41 +42,34 @@ function success(position) {
     let latitude = position.coords.latitude;
     let longitude = position.coords.longitude;
 
-    // Se crea el mapa
-    let map = L.map('map');
-    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a> contributors',
-    }).addTo(map);
-
     // Se agrega la ruta al mapa
     L.Routing.control({
-        waypoints: [L.latLng(latitude, longitude), L.latLng(40.03233455, -5.7437511)],
+        waypoints: [L.latLng(latitude, longitude), L.latLng(COMPANY_LAT, COMPANY_LNG)],
+        routeWhileDragging: true,
         language: 'es',
     }).addTo(map);
 
-    // Se evita la propagación de scroll y click en la ruta
+    // Se actualiza el centro y el zoom del mapa
+    map.setView([(latitude + COMPANY_LAT) / 2, (longitude + COMPANY_LNG) / 2], 7);
+
+    // Se elimina el marcador creado en initMap()
+    if (companyMarker) {
+        map.removeLayer(companyMarker);
+    }
+
+    // Se evita la propagación de scroll y click en el cuadro de la ruta
     evitarPropagacion();
 }
 
-// Función para mostrar el mapa si el usuario no acepta compartir su ubicación
-function error() {
-    // Se establecen los parámetros iniciales con la ubicación de la empresa
-    let map = L.map('map', {
-        center: [40.03233455, -5.7437511],
-        zoom: 14,
-    });
-
-    // Se crea el mapa
-    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a> contributors',
-    }).addTo(map);
-
-    // Se agrega un marcador para la ubicación de la empresa
-    L.marker([40.03233455, -5.7437511]).addTo(map);
+// Función para mostrar el mensaje de error en consola
+function error(err) {
+    console.log('No ha sido posible obtener la geolocalización del usuario. Código: ' + err.code + '. Mensaje: ' + err.message + '.');
 }
 
-// Función para comprobar la geolocalización y crear el mapa
+// Función para crear el mapa y comprobar la geolocalización
 function crearMapa() {
+    initMap();
+
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(success, error, options);
     } else {
