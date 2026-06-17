@@ -14,13 +14,13 @@ body > main {
     flex: 1;
     padding-top: 105.6px;
 }
-body > section {
-    padding: 2rem 1rem;
+body > main > section {
+    padding: 2.5rem 1rem;
 }
-body > section:nth-child(odd) {
+body > main > section:nth-child(odd) {
     background-color: #85abff;
 }
-body > section:nth-child(even) {
+body > main > section:nth-child(even) {
     background-color: #c2d5ff;
 }
 h1 {

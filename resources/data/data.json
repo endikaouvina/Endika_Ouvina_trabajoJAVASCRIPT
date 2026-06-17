@@ -1,0 +1,130 @@
+[
+    {
+        "title": "DESCUBRE NUESTRO CONTENIDO",
+        "cards": [
+            {
+                "src": "./assets/img/noticia_carga.webp",
+                "alt": "Imagen donde se ve un móvil cargándose.",
+                "title": "Carga",
+                "text": "Carga el móvil donde quieras.",
+                "price": "",
+                "btnText": "Descubrir",
+                "btnHref": "#"
+            },
+            {
+                "src": "./assets/img/noticia_smartwatch.webp",
+                "alt": "Imagen donde se ve una muñeca con un smart watch puesto.",
+                "title": "Smartwatch",
+                "text": "Ten la hora siempre a mano.",
+                "price": "",
+                "btnText": "Descubrir",
+                "btnHref": "#"
+            },
+            {
+                "src": "./assets/img/noticia_soporte.webp",
+                "alt": "Imagen donde se ve un coche con un soporte para móvil puesto.",
+                "title": "Soporte",
+                "text": "Apoya el móvil para ver tu serie favorita.",
+                "price": "",
+                "btnText": "Descubrir",
+                "btnHref": "#"
+            }
+        ]
+    },
+    {
+        "title": "COLGANTES",
+        "cards": [
+            {
+                "src": "./assets/img/colgante_etnico.jpg",
+                "alt": "Colgante multicolor de tela ancha",
+                "title": "Colgante étnico",
+                "text": "",
+                "price": "12.99",
+                "btnText": "",
+                "btnHref": ""
+            },
+            {
+                "src": "./assets/img/colgante_tubular.jpg",
+                "alt": "Colgante negro de cuero con toques dorados metálicos en los extremos",
+                "title": "Colgante tubular",
+                "text": "",
+                "price": "14.99",
+                "btnText": "",
+                "btnHref": ""
+            },
+            {
+                "src": "./assets/img/colgante_bolas.jpg",
+                "alt": "Colgante negro y dorado de bolas metálicas",
+                "title": "Colgante bolas",
+                "text": "",
+                "price": "14.99",
+                "btnText": "",
+                "btnHref": ""
+            }
+        ]
+    },
+    {
+        "title": "AURICULARES",
+        "cards": [
+            {
+                "src": "./assets/img/auriculares_urban.jpg",
+                "alt": "Auriculares inalámbricos Urban, de color negro",
+                "title": "Auriculares Urban",
+                "text": "",
+                "price": "19.99",
+                "btnText": "",
+                "btnHref": ""
+            },
+            {
+                "src": "./assets/img/auriculares_expert.jpg",
+                "alt": "Auriculares inalámbricos Expert, de color negro",
+                "title": "Auriculares Expert",
+                "text": "",
+                "price": "29.99",
+                "btnText": "",
+                "btnHref": ""
+            },
+            {
+                "src": "./assets/img/auriculares_alpha.jpg",
+                "alt": "Auriculares inalámbricos Alpha, de color negro",
+                "title": "Auriculares Alpha",
+                "text": "",
+                "price": "39.99",
+                "btnText": "",
+                "btnHref": ""
+            }
+        ]
+    },
+    {
+        "title": "POWER BANKS",
+        "cards": [
+            {
+                "src": "./assets/img/power_bank_5000.jpg",
+                "alt": "Power bank de 5000 mAh, de color negro",
+                "title": "Power bank 5000 mAh",
+                "text": "",
+                "price": "39.99",
+                "btnText": "",
+                "btnHref": ""
+            },
+            {
+                "src": "./assets/img/power_bank_10000.jpg",
+                "alt": "Power bank de 10000 mAh, de color negro",
+                "title": "Power bank 10000 mAh",
+                "text": "",
+                "price": "49.99",
+                "btnText": "",
+                "btnHref": ""
+            },
+            {
+                "src": "./assets/img/power_bank_5000_3en1.jpg",
+                "alt": "Power bank de 5000 mAh, 3 en 1, de color negro",
+                "title": "Power bank 5000 mAh, 3 en 1",
+                "text": "",
+                "price": "59.99",
+                "btnText": "",
+                "btnHref": ""
+            }
+        ]
+    }
+]

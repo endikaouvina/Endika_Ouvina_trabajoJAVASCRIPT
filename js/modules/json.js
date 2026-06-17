@@ -4,75 +4,82 @@
 const MAIN = document.querySelector('main');
 
 // Variables globales
-const URL_NOTICIAS = './resources/data/noticias.json';
+const URL_NOTICIAS = './resources/data/data.json';
 
-// Función para crear las tarjetas
-function createJSONCard(item) {
-    // Se crean los elementos necesarios
-    const card = document.createElement('div');
-    const imgDiv = document.createElement('div');
-    const img = document.createElement('img');
-    const body = document.createElement('div');
-    const title = document.createElement('h3');
-    const text = document.createElement('p');
-    const button = document.createElement('a');
+// Función para crear el contenido del JSON
+function createJSONContent(json) {
+    json.forEach((elem) => {
+        // Se crean los elementos
+        const section = createElement('section');
+        const container = createElement('div', ['container']);
+        const h2 = createElement('h2');
+        const row = createElement('div', ['row']);
+        elem.cards.forEach((card) => {
+            row.appendChild(createCard(card));
+        });
 
-    // Se agregan los atributos necesarios
-    img.src = item.src;
-    img.alt = item.alt;
-    button.href = item.href;
-
-    // Se agregan las clases necesarias
-    card.classList.add('col', 'card', 'mx-3');
-    imgDiv.classList.add('h-100', 'd-flex', 'flex-column', 'justify-content-center');
-    img.classList.add('card-img');
-    body.classList.add('card-body');
-    title.classList.add('card-title');
-    text.classList.add('card-text');
-    button.classList.add('btn', 'btn-secondary');
-
-    // Se agrega el contenido de los elementos
-    title.textContent = item.title;
-    text.textContent = item.text;
-    button.textContent = item.buttonText;
-
-    // Se construye la estructura de la tarjeta
-    imgDiv.appendChild(img);
-    body.appendChild(title);
-    body.appendChild(text);
-    body.appendChild(button);
-    card.appendChild(imgDiv);
-    card.appendChild(body);
-
-    // Se devuelve la tarjeta
-    return card;
+        // Se agregan la información y los elementos al main
+        h2.textContent = elem.title;
+        container.appendChild(h2);
+        container.appendChild(row);
+        section.appendChild(container);
+        MAIN.appendChild(section);
+    });
 }
 
-// Función para crear el contenido de la página
-function createJSONContent(json) {
-    // Se crean los elementos necesarios
-    const section = document.createElement('section');
-    const container = document.createElement('div');
-    const title = document.createElement('h2');
-    const row = document.createElement('div');
+// Función para crear una tarjeta
+function createCard(card) {
+    // Se crean y se agregan los elementos
+    const divCard = createElement('div', ['col', 'card', 'mx-3']);
+    const divImg = createElement('div', ['h-100', 'd-flex', 'flex-column', 'justify-content-center']);
+    const img = createElement('img', ['card-img'], { src: card.src, alt: card.alt });
+    const cardBody = createElement('div', ['card-body']);
+    const h3 = createElement('h3', ['card-title']);
 
-    // Se agregan las clases necesarias
-    container.classList.add('container');
-    row.classList.add('row');
+    divImg.appendChild(img);
+    cardBody.appendChild(h3);
 
-    // Se agrega el contenido de los elementos
-    title.textContent = 'DESCUBRE NUESTRO CONTENIDO';
+    if (card.text !== '') {
+        cardBody.appendChild(createCardBody(card.text, 'p', ['card-text']));
+    }
+    if (card.price !== '') {
+        cardBody.appendChild(createCardBody(card.price, 'p', ['card-text']));
+    }
+    if (card.btnText !== '' && card.btnHref !== '') {
+        cardBody.appendChild(createCardBody(card.btnText, 'a', ['btn', 'btn-secondary'], { href: card.btnHref }));
+    }
 
-    // Se construye la estructura del contenido
-    json.forEach((item) => {
-        row.appendChild(createJSONCard(item));
-    });
-    container.appendChild(title);
-    container.appendChild(row);
-    section.appendChild(container);
+    // Se agrega la información y los elementos a la tarjeta, que se devuelve
+    h3.textContent = card.title;
+    divCard.appendChild(divImg);
+    divCard.appendChild(cardBody);
 
-    // Se devuelve el contenido
-    return section;
+    return divCard;
+}
+
+// Función para crear el body de una tarjeta
+function createCardBody(value, tag, classes, attr) {
+    const elem = createElement(tag, classes, attr);
+    elem.innerHTML = Number.isNaN(Number.parseFloat(value)) ? value : new Intl.NumberFormat('es-ES', { style: 'currency', currency: 'EUR' }).format(Number.parseFloat(value));
+
+    return elem;
+}
+
+// Función para crear un elemento
+function createElement(tag, classes, attr) {
+    const elem = document.createElement(tag);
+
+    if (classes !== undefined && classes.length) {
+        elem.classList.add(...classes);
+    }
+
+    if (attr !== undefined) {
+        for (const [key, value] of Object.entries(attr)) {
+            elem.setAttribute(key, value);
+        }
+    }
+
+    return elem;
 }
 
 // Función para cargar el JSON
@@ -84,9 +91,8 @@ async function cargarJSON(params) {
         }
         const json = await respuesta.json();
 
-        // Creación del contenido HTML
-        let content = createJSONContent(json);
-        MAIN.insertBefore(content, MAIN.children[0]);
+        // Se crea y se agrega el contenido HTML
+        createJSONContent(json);
     } catch (error) {
         console.error('Error al cargar el JSON:', error);
     }
