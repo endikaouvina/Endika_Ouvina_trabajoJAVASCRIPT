@@ -1,287 +1,506 @@
 'use strict';
 
-// Elementos del DOM
-const CAROUSEL = document.querySelector('#crl');
+// Clase para crear una instancia del carrusel
+class Carousel {
+    // Opciones por defecto
+    static defaultOptions = {
+        loop: true,
+        maxDots: 7,
+        showControls: true,
+        showDots: true,
+        slidesToShow: 3,
+        startIndex: 0,
+        transitionDuration: 200,
+    };
 
-// Variables globales
-const IMGS_CAROUSEL = [
-    { src: '../assets/img/altavoz_bluetooth.jpg', alt: 'Altavoz Bluetooth' },
-    { src: '../assets/img/altavoz_karaoke.jpg', alt: 'Altavoz Karaoke' },
-    { src: '../assets/img/auriculares_alpha.jpg', alt: 'Auricular Alpha' },
-    { src: '../assets/img/auriculares_expert.jpg', alt: 'Auricular Expert' },
-    { src: '../assets/img/auriculares_urban.jpg', alt: 'Auricular Urban' },
-    { src: '../assets/img/bolso_para_movil.jpg', alt: 'Bolso para móvil' },
-    { src: '../assets/img/cable_de_carga.jpg', alt: 'Cable de carga' },
-    { src: '../assets/img/cargador_de_pared.jpg', alt: 'Cargador de pared' },
-    { src: '../assets/img/colgante_bolas.jpg', alt: 'Colgante de bolas' },
-    { src: '../assets/img/colgante_etnico.jpg', alt: 'Colgante etnico' },
-    { src: '../assets/img/colgante_tubular.jpg', alt: 'Colgante tubular' },
-    { src: '../assets/img/funda_para_pasaporte.jpg', alt: 'Funda para pasaporte' },
-    { src: '../assets/img/gimbal_multifuncion.jpg', alt: 'Gimbal multifunción' },
-    { src: '../assets/img/identificador_de_maletas.jpg', alt: 'Identificador de maletas' },
-    { src: '../assets/img/imanes_para_coche.jpg', alt: 'Imanes para coche' },
-    { src: '../assets/img/power_bank_5000.jpg', alt: 'Power Bank 5000 mAh' },
-    { src: '../assets/img/power_bank_10000.jpg', alt: 'Power Bank 10000 mAh' },
-    { src: '../assets/img/power_bank_5000_3en1.jpg', alt: 'Power Bank 5000 mAh 3 en 1' },
-    { src: '../assets/img/pulverizador.jpg', alt: 'Pulverizador' },
-    { src: '../assets/img/smart_band.jpg', alt: 'Smart Band' },
-    { src: '../assets/img/smartwatch.jpg', alt: 'Smartwatch' },
-    { src: '../assets/img/soporte_lampara_led.jpg', alt: 'Soporte lámpara LED' },
-    { src: '../assets/img/soporte_para_mesa.jpg', alt: 'Soporte para mesa' },
-    { src: '../assets/img/tarjetero_soporte.jpg', alt: 'Tarjetero soporte' },
-];
-let currentIndex = 0;
-let isDragging = false;
-let isUpdating = false;
-let startX = 0;
+    state = {
+        currentIndex: 0,
+        isAnimating: false,
+    };
 
-// Función para actualizar los puntos
-function updateDots() {
-    // Elementos del DOM
-    const dots = document.querySelectorAll('.crl__dot');
+    errorMsg = [];
 
-    // Se actualizan los puntos
-    dots.forEach((dot, index) => {
-        if (index === currentIndex) {
-            dot.classList.add('crl__dot--active');
+    /* CONSTRUCTOR Y FUNCIÓN DE INICIO (tras validación) */
+
+    constructor(options) {
+        if (!options) {
+            this.errorMsg.push('No se ha especificado ninguna opción. Las opciones "container" e "images" son obligatorias.');
+        } else if (Object.getPrototypeOf(options) !== Object.prototype) {
+            this.errorMsg.push('Las opciones tienen que estar en formato de objeto literal.');
         } else {
-            dot.classList.remove('crl__dot--active');
+            // Se valida la información introducida por el usuario
+            this.validateContainer(options);
+            this.validateImages(options);
+            this.validateOptions(options);
         }
-        if (IMGS_CAROUSEL.length > 7 && ((currentIndex <= 3 && index === 6) || (currentIndex >= 4 && currentIndex <= IMGS_CAROUSEL.length - 4 && (index === currentIndex - 3 || index === currentIndex + 3)) || (currentIndex >= IMGS_CAROUSEL.length - 3 && index === IMGS_CAROUSEL.length - 7))) {
-            dot.classList.add('crl__dot--edge');
+
+        // Se inicializa el carrusel
+        if (this.errorMsg.length === 0) {
+            this.options = {
+                ...Carousel.defaultOptions,
+                ...options,
+            };
+            this.init();
         } else {
-            dot.classList.remove('crl__dot--edge');
+            this.showErrors();
         }
-        if ((currentIndex <= 3 && index >= 7) || (currentIndex >= 4 && currentIndex <= IMGS_CAROUSEL.length - 4 && (index < currentIndex - 3 || index > currentIndex + 3)) || (currentIndex >= IMGS_CAROUSEL.length - 3 && index < IMGS_CAROUSEL.length - 7)) {
-            dot.style.width = '0';
-            dot.style.height = '0';
-            dot.style.margin = '0';
-        } else {
-            dot.style.width = '10px';
-            dot.style.height = '10px';
-            dot.style.margin = '0 5px';
-        }
-    });
-}
-
-// Función para actualizar el carrusel
-function updateCarousel() {
-    // Elementos del DOM
-    const slider = document.querySelector('.crl__slider');
-    const fstSlide = slider.querySelector('.crl__slide:first-of-type');
-    const fstSlideImg = slider.querySelector('.crl__slide:first-of-type img');
-    const sndSlide = slider.querySelector('.crl__slide:nth-of-type(2)');
-    const sndSlideImg = slider.querySelector('.crl__slide:nth-of-type(2) img');
-    const trdSlide = slider.querySelector('.crl__slide:last-of-type');
-    const trdSlideImg = slider.querySelector('.crl__slide:last-of-type img');
-
-    // Se calculan los index para la animación
-    const activeIndex = parseInt(document.querySelector('.crl__slide--active').dataset.index);
-    const prevIndex = (currentIndex - 1 + IMGS_CAROUSEL.length) % IMGS_CAROUSEL.length;
-    const nextIndex = (currentIndex + 1) % IMGS_CAROUSEL.length;
-
-    // Se crean los elementos necesarios
-    const newSlide = document.createElement('div');
-    const newSlideImg = document.createElement('img');
-
-    // Se agregan los atributos necesarios
-    newSlide.style.height = 0;
-    newSlideImg.draggable = false;
-
-    // Se actualizan las clases necesarias
-    sndSlide.classList.add('crl__slide--inactive');
-    sndSlide.classList.remove('crl__slide--active');
-    newSlide.classList.add('crl__slide', 'crl__slide--inactive');
-
-    if (currentIndex === activeIndex + 1 || (currentIndex === 0 && activeIndex === IMGS_CAROUSEL.length - 1)) {
-        // Se agregan los atributos necesarios al nuevo slide
-        newSlideImg.src = IMGS_CAROUSEL[nextIndex].src;
-        newSlideImg.alt = IMGS_CAROUSEL[nextIndex].alt;
-        newSlide.dataset.index = nextIndex;
-
-        // Se agrega el nuevo slide al slider
-        newSlide.appendChild(newSlideImg);
-        slider.appendChild(newSlide);
-
-        // Se actualizan las clases
-        trdSlide.classList.add('crl__slide--active');
-        trdSlide.classList.remove('crl__slide--inactive');
-
-        // Se oculta el primer slide y se muestra el nuevo
-        fstSlide.style.height = 0;
-        newSlide.style.height = sndSlide.offsetHeight + 'px';
-
-        // Se elimina el primer slide y se actualiza la altura del nuevo
-        setTimeout(() => {
-            fstSlide.remove();
-            newSlide.style.height = '100%';
-            isUpdating = false;
-        }, 1000);
-    } else {
-        // Se agregan los atributos necesarios al nuevo slide
-        newSlideImg.src = IMGS_CAROUSEL[prevIndex].src;
-        newSlideImg.alt = IMGS_CAROUSEL[prevIndex].alt;
-        newSlide.dataset.index = prevIndex;
-
-        // Se agrega el nuevo slide al slider
-        newSlide.appendChild(newSlideImg);
-        slider.insertBefore(newSlide, slider.children[0]);
-
-        // Se actualizan las clases
-        fstSlide.classList.add('crl__slide--active');
-        fstSlide.classList.remove('crl__slide--inactive');
-
-        // Se oculta el tercer slide y se muestra el nuevo
-        trdSlide.style.height = 0;
-        newSlide.style.height = sndSlide.offsetHeight + 'px';
-
-        // Se elimina el tercer slide y se actualiza la altura del nuevo
-        setTimeout(() => {
-            trdSlide.remove();
-            newSlide.style.height = '100%';
-            isUpdating = false;
-        }, 300);
+    }
+    init() {
+        this.state.currentIndex = this.options.startIndex;
+        this.container = document.querySelector(this.options.container);
+        this.createDOM();
+        this.cacheDOM();
+        this.bindEvents();
+        this.render();
     }
 
-    // Se actualizan los puntos
-    updateDots();
-}
+    /* FUNCIONES DE VALIDACIÓN */
 
-// Función para agregar la funcionalidad de arrastre al carrusel
-function agregarArrastre(element) {
-    element.addEventListener('mousedown', (e) => {
-        isDragging = true;
-        startX = e.pageX;
-        element.classList.add('crl__slide--dragging');
-    });
-
-    element.addEventListener('mousemove', (e) => {
-        if (isDragging) {
-            const endX = e.pageX - startX;
-            if (endX > 100) {
-                currentIndex = (currentIndex - 1 + IMGS_CAROUSEL.length) % IMGS_CAROUSEL.length;
-                isDragging = false;
-                updateCarousel();
-            } else if (endX < -100) {
-                currentIndex = (currentIndex + 1) % IMGS_CAROUSEL.length;
-                isDragging = false;
-                updateCarousel();
-            }
+    // Función para validar la opción 'container' de la instancia
+    validateContainer(options) {
+        if (options === undefined || !Object.hasOwn(options, 'container')) {
+            this.errorMsg.push('La opción "container" es obligatoria.');
+            return;
         }
-    });
-
-    element.addEventListener('mouseup', () => {
-        isDragging = false;
-        element.classList.remove('crl__slide--dragging');
-    });
-}
-
-// Función para inicializar el carrusel
-function initCarousel() {
-    // Elementos del DOM
-    const imgPrev = document.querySelector('[data-index = "' + (IMGS_CAROUSEL.length - 1) + '"] img');
-    const imgActive = document.querySelector('[data-index = "0"] img');
-    const imgNext = document.querySelector('[data-index = "1"] img');
-
-    // Se actualizan los atributos de las imágenes
-    imgPrev.src = IMGS_CAROUSEL[IMGS_CAROUSEL.length - 1].src;
-    imgPrev.alt = IMGS_CAROUSEL[IMGS_CAROUSEL.length - 1].alt;
-    imgActive.src = IMGS_CAROUSEL[0].src;
-    imgActive.alt = IMGS_CAROUSEL[0].alt;
-    imgNext.src = IMGS_CAROUSEL[1].src;
-    imgNext.alt = IMGS_CAROUSEL[1].alt;
-}
-
-// Función para construir la estructura del carrusel
-function cargarCarousel() {
-    // Se crean los elementos necesarios
-    const crlInner = document.createElement('div');
-    const crlSlider = document.createElement('div');
-    const crlImgPrev = document.createElement('div');
-    const crlImgActive = document.createElement('div');
-    const crlImgNext = document.createElement('div');
-    const btnPrev = document.createElement('button');
-    const btnNext = document.createElement('button');
-    const btnPrevIcon = document.createElement('i');
-    const btnNextIcon = document.createElement('i');
-    const dotsContainer = document.createElement('div');
-
-    // Se agregan los atributos necesarios
-    crlImgPrev.dataset.index = IMGS_CAROUSEL.length - 1;
-    crlImgActive.dataset.index = 0;
-    crlImgNext.dataset.index = 1;
-
-    // Se agregan las clases necesarias
-    crlInner.classList.add('crl__inner');
-    crlSlider.classList.add('crl__slider');
-    crlImgPrev.classList.add('crl__slide', 'crl__slide--inactive');
-    crlImgActive.classList.add('crl__slide', 'crl__slide--active');
-    crlImgNext.classList.add('crl__slide', 'crl__slide--inactive');
-    btnPrev.classList.add('crl__control', 'crl__control--prev');
-    btnNext.classList.add('crl__control', 'crl__control--next');
-    btnPrevIcon.classList.add('fa-solid', 'fa-angle-left', 'fa-lg');
-    btnNextIcon.classList.add('fa-solid', 'fa-angle-right', 'fa-lg');
-    dotsContainer.classList.add('crl__dots');
-
-    // Se construye la estructura del carrusel
-    btnPrev.appendChild(btnPrevIcon);
-    btnNext.appendChild(btnNextIcon);
-    crlSlider.appendChild(crlImgPrev);
-    crlSlider.appendChild(crlImgActive);
-    crlSlider.appendChild(crlImgNext);
-    crlInner.appendChild(btnPrev);
-    crlInner.appendChild(crlSlider);
-    crlInner.appendChild(btnNext);
-    CAROUSEL.appendChild(crlInner);
-    CAROUSEL.appendChild(dotsContainer);
-
-    // Se agregan las imágenes a los divs correspondientes
-    [crlImgPrev, crlImgActive, crlImgNext].forEach((crlImg, index) => {
-        const img = document.createElement('img');
-        img.draggable = false;
-        crlImg.appendChild(img);
-    });
-
-    // Se agrega un punto y su evento, por cada una de las imágenes
-    IMGS_CAROUSEL.forEach((img, index) => {
-        const dot = document.createElement('div');
-        dot.classList.add('crl__dot');
-        dotsContainer.appendChild(dot);
-
-        dot.addEventListener('click', () => {
-            if (!isUpdating) {
-                isUpdating = true;
-                currentIndex = index;
-                updateCarousel();
+        try {
+            this.container = document.querySelector(options.container);
+        } catch {
+            this.errorMsg.push(`'${options.container}' no es un selector válido.`);
+            return;
+        }
+        if (!this.container) {
+            let attr = '';
+            if (options.container.startsWith('#')) {
+                attr = 'con id ';
+            } else if (options.container.startsWith('.')) {
+                attr = 'con clase ';
+            }
+            this.errorMsg.push(`No existe el elemento ${attr}"` + (attr !== '' ? options.container.substr(1) : options.container) + '" en el DOM.');
+        }
+    }
+    // Función para validar la opción 'images' de la instancia
+    validateImages(options) {
+        if (options === undefined || !Object.hasOwn(options, 'images')) {
+            this.errorMsg.push('La opción "images" es obligatoria.');
+            return;
+        }
+        if (!Array.isArray(options.images)) {
+            this.errorMsg.push('La opción "images" debe ser un array.');
+            return;
+        }
+        if (options.images.length === 0) {
+            this.errorMsg.push('La opción "images" debe contener, al menos, una imagen.');
+            return;
+        }
+        options.images.forEach((image, index) => {
+            if (Object.getPrototypeOf(image) !== Object.prototype) {
+                this.errorMsg.push(`La imagen ${index} debe ser un objeto literal.`);
+            } else if (!Object.hasOwn(image, 'src')) {
+                this.errorMsg.push(`La imagen ${index} no tiene 'src'.`);
+            } else if (typeof image.src !== 'string') {
+                this.errorMsg.push(`La clave 'src' de la imagen ${index} tiene que ser de tipo string (cadena).`);
+            } else if (image.src === '') {
+                this.errorMsg.push(`La clave 'src' de la imagen ${index} no debe estar vacía.`);
             }
         });
-    });
-
-    // Se agregan los eventos a los botones
-    btnPrev.addEventListener('click', () => {
-        if (!isUpdating) {
-            isUpdating = true;
-            currentIndex = (currentIndex - 1 + IMGS_CAROUSEL.length) % IMGS_CAROUSEL.length;
-            updateCarousel();
+    }
+    // Función para validar todas las opciones excepto 'container' e 'images'
+    validateOptions(options) {
+        for (const [key, value] of Object.entries(options)) {
+            switch (key) {
+                case 'loop':
+                case 'showControls':
+                case 'showDots':
+                    this.validateValue(options, key, value, 'boolean');
+                    break;
+                case 'maxDots':
+                    this.validateValue(options, key, value, 'number', 1);
+                    break;
+                case 'slidesToShow':
+                    this.validateValue(options, key, value, 'number');
+                    break;
+                case 'startIndex':
+                case 'transitionDuration':
+                    this.validateValue(options, key, value, 'number', 0);
+                    break;
+                default:
+                    if (key !== 'container' && key !== 'images') {
+                        this.errorMsg.push(`No se reconoce la opción ${key}.`);
+                    }
+                    break;
+            }
         }
-    });
-    btnNext.addEventListener('click', () => {
-        if (!isUpdating) {
-            isUpdating = true;
-            currentIndex = (currentIndex + 1) % IMGS_CAROUSEL.length;
-            updateCarousel();
+    }
+    // Función para validar el valor de todas las opciones excepto 'container' e 'images'
+    validateValue(options, key, value, type, min) {
+        if (typeof value !== type) {
+            this.errorMsg.push(`La opción "${key}" debe ser de tipo ${type}. Se inicializará con su valor por defecto: ${Carousel.defaultOptions[key]}`);
+            return;
         }
-    });
+        if (key === 'slidesToShow') {
+            this.validateSlidesToShow(options, key, value);
+        } else if (type === 'number') {
+            this.validateNumber(options, key, value, min);
+        }
+    }
+    // Función para validar los valores de tipo number
+    validateNumber(options, key, value, min) {
+        if (!Number.isInteger(value) || value < min || (key !== 'transitionDuration' && value > options.images.length - 1)) {
+            let msg = '';
+            msg += `La opción "${key}" debe ser`;
+            if (!Number.isInteger(value)) {
+                msg += ' un número entero';
+            }
+            if (value < min) {
+                msg += ` mayor o igual que ${min}`;
+            }
+            if (key !== 'transitionDuration') {
+                if (value < min && value > options.images.length - 1) {
+                    msg += ' y';
+                }
+                if (value > options.images.length - 1) {
+                    msg += ' menor que el total de imágenes añadidas en la opción "images"';
+                }
+            }
+            msg += '.';
+            this.errorMsg.push(msg);
+        }
+    }
+    // Función para validar el valor de la opción slidesToShow
+    validateSlidesToShow(options, key, value) {
+        if (options.images.length < 3 && value !== 1) {
+            this.errorMsg.push(`Al haber menos de 3 imágenes, la opción "${key}" solo puede tener el valor 1.`);
+        } else if (options.images.length >= 3 && value !== 1 && value !== 3) {
+            this.errorMsg.push(`La opción "${key}" solo puede tener los valores 1 y 3.`);
+        }
+    }
 
-    // Se agrega la funcionalidad de arrastre
-    agregarArrastre(crlImgPrev);
-    agregarArrastre(crlImgActive);
-    agregarArrastre(crlImgNext);
+    /* FUNCIONES PARA CREAR LA ESTRUCTURA DEL CARRUSEL Y DIFERENTES ELEMENTOS */
 
-    // Se inicializa el carrusel
-    initCarousel();
-    updateDots();
+    createDOM() {
+        // Se establecen atributos al container
+        this.container.role = 'region';
+        this.container.ariaLabel = 'Carrusel';
+
+        // Se crean los controles y el slider
+        let divSliderClasses = ['crl__slider'];
+        let ctrlPrev, ctrlNext;
+        if (this.options.showControls) {
+            if (!(!this.options.loop && this.options.startIndex === 0)) {
+                ctrlPrev = this.createControl('crl__control--prev', 'Anterior', 'fa-angle-left');
+            }
+            if (!(!this.options.loop && this.options.startIndex === this.options.images.length)) {
+                ctrlNext = this.createControl('crl__control--next', 'Siguiente', 'fa-angle-right');
+            }
+        } else {
+            divSliderClasses.push('crl__slider--fluid');
+        }
+        const divSlider = this.createElement('div', divSliderClasses);
+
+        // Se crean y se agregan los slides
+        for (let i = 1; i <= this.options.slidesToShow; i++) {
+            let slideClasses = ['crl__slide'];
+            let slide;
+            if (this.options.slidesToShow === 3 && (i === 1 || i === 3)) {
+                slideClasses.push('crl__slide--inactive');
+            } else {
+                slideClasses.push('crl__slide--active');
+            }
+            if (!this.options.loop && this.options.slidesToShow === 3 && ((i === 1 && this.state.currentIndex === 0) || (i === 3 && this.state.currentIndex === this.options.images.length - 1))) {
+                slide = this.createElement('div', slideClasses);
+            } else {
+                slide = this.createSlide(slideClasses);
+            }
+            slide.style.setProperty('--duration', `${this.options.transitionDuration}ms`);
+            divSlider.appendChild(slide);
+        }
+
+        // Se crea y se agrega el inner al container
+        const divInner = this.createElement('div', ['crl__inner']);
+        [ctrlPrev, divSlider, ctrlNext].forEach((elem) => {
+            if (elem) {
+                divInner.appendChild(elem);
+            }
+        });
+        this.container.appendChild(divInner);
+
+        // Se crean y se agregan los puntos al container
+        if (this.options.showDots) {
+            const navDots = this.createElement('nav', ['crl__dots'], { 'aria-label': 'Navegación del carrusel' });
+            for (let i = 0; i < this.options.maxDots; i++) {
+                const dot = this.createElement('div', ['crl__dot']);
+                dot.style.setProperty('--duration', `${this.options.transitionDuration}ms`);
+                navDots.appendChild(dot);
+            }
+            this.container.appendChild(navDots);
+        }
+    }
+    createControl(ctrlClass, ctrlAriaLabel, iconClass) {
+        const ctrl = this.createElement('button', ['crl__control', ctrlClass], { 'aria-label': ctrlAriaLabel });
+        ctrl.appendChild(this.createElement('i', ['fa-solid', iconClass, 'fa-lg']));
+        return ctrl;
+    }
+    createSlide(slideClasses) {
+        const slide = this.createElement('div', slideClasses);
+        slide.appendChild(this.createElement('img', [], { draggable: 'false', loading: 'lazy' }));
+        return slide;
+    }
+    createElement(tag, classes, attr) {
+        const elem = document.createElement(tag);
+
+        if (classes !== undefined && classes.length) {
+            elem.classList.add(...classes);
+        }
+
+        if (attr !== undefined) {
+            for (const [key, value] of Object.entries(attr)) {
+                elem.setAttribute(key, value);
+            }
+        }
+
+        return elem;
+    }
+
+    /* FUNCIONES PARA ASIGNAR ELEMENTOS COMO ATRIBUTOS DE LA CLASE */
+
+    cacheDOM() {
+        this.inner = this.container.querySelector('.crl__inner');
+        this.slider = this.container.querySelector('.crl__slider');
+        this.cacheSlides();
+        if (this.options.showControls) {
+            this.cacheControls();
+        }
+        if (this.options.showDots) {
+            this.navDots = this.container.querySelector('.crl__dots');
+        }
+    }
+    cacheControls() {
+        this.ctrlPrev = this.container.querySelector('.crl__control--prev');
+        this.ctrlNext = this.container.querySelector('.crl__control--next');
+    }
+    cacheSlides() {
+        this.slideActive = this.container.querySelector('.crl__slide--active');
+        this.slideActiveImg = this.container.querySelector('.crl__slide--active img');
+        if (this.options.slidesToShow === 3) {
+            this.slidePrev = this.container.querySelector('.crl__slide--inactive:first-of-type');
+            this.slidePrevImg = this.container.querySelector('.crl__slide--inactive:first-of-type img');
+            this.slideNext = this.container.querySelector('.crl__slide--inactive:last-of-type');
+            this.slideNextImg = this.container.querySelector('.crl__slide--inactive:last-of-type img');
+        }
+    }
+
+    /* FUNCIONES PARA AGREGAR EVENTOS */
+
+    bindEvents() {
+        if (this.options.showControls) {
+            this.bindCtrlEvents(true, true);
+        }
+    }
+    bindCtrlEvents(ctrlPrev, ctrlNext) {
+        if (this.ctrlPrev && ctrlPrev) {
+            this.ctrlPrev.addEventListener('click', () => this.prev());
+        }
+        if (this.ctrlNext && ctrlNext) {
+            this.ctrlNext.addEventListener('click', () => this.next());
+        }
+    }
+
+    /* FUNCIONES PARA OBTENER LOS INDEX */
+
+    getSlideIndex(offset) {
+        return (this.state.currentIndex + offset + this.options.images.length) % this.options.images.length;
+    }
+    getDotIndex(dotIndex) {
+        const lengthImages = this.options.images.length;
+        const maxDots = this.options.maxDots;
+        if (this.options.loop) {
+            return this.getSlideIndex(dotIndex - Math.floor(maxDots / 2));
+        } else {
+            if (lengthImages <= maxDots) {
+                return dotIndex;
+            }
+            let startIndex = Math.min(Math.max(this.state.currentIndex - Math.floor(maxDots / 2), 0), lengthImages - maxDots);
+            return startIndex + dotIndex;
+        }
+    }
+
+    /* FUNCIONES PARA RENDERIZAR DIFERENTES ELEMENTOS */
+
+    render() {
+        this.renderSlides();
+        if (this.options.showDots) {
+            this.updateDots(0);
+        }
+    }
+    renderSlides() {
+        this.renderImg(this.slideActiveImg, this.state.currentIndex);
+        if (this.options.slidesToShow === 3) {
+            if (!(!this.options.loop && this.state.currentIndex === 0)) {
+                this.renderImg(this.slidePrevImg, this.getSlideIndex(-1));
+            }
+            if (!(!this.options.loop && this.state.currentIndex === this.options.images.length - 1)) {
+                this.renderImg(this.slideNextImg, this.getSlideIndex(1));
+            }
+        }
+    }
+    renderImg(img, index) {
+        img.src = this.options.images[index].src;
+        if (this.options.images[index].alt) {
+            img.alt = this.options.images[index].alt;
+        }
+    }
+    renderDots(direction) {
+        if (this.options.images.length > this.options.maxDots && (this.options.loop || (!this.options.loop && this.state.currentIndex > Math.floor(this.options.maxDots / 2) - (direction === 'next' ? 0 : 1) && this.state.currentIndex < this.options.images.length - this.options.maxDots / 2 - (direction === 'prev' && this.options.maxDots / 2 !== Math.floor(this.options.maxDots / 2) ? 1 : 0) + (direction === 'next' && this.options.maxDots / 2 === Math.floor(this.options.maxDots / 2) ? 1 : 0)))) {
+            const newDot = this.createElement('div', ['crl__dot', 'crl__dot--edge', 'crl__dot--hidden']);
+            newDot.style.setProperty('--duration', `${this.options.transitionDuration}ms`);
+            let dotToHide;
+            if (direction === 'next') {
+                dotToHide = this.navDots.childNodes[0];
+                this.navDots.appendChild(newDot);
+            } else {
+                dotToHide = this.navDots.childNodes[this.options.maxDots - 1];
+                this.navDots.prepend(newDot);
+            }
+            newDot.offsetWidth;
+            this.updateDots(direction === 'next' ? -1 : 0);
+            requestAnimationFrame(() => {
+                dotToHide.classList.add('crl__dot--hidden');
+                newDot.classList.remove('crl__dot--hidden');
+            });
+            dotToHide.addEventListener(
+                'transitionend',
+                () => {
+                    dotToHide.remove();
+                },
+                {
+                    once: true,
+                },
+            );
+        } else {
+            this.updateDots(0);
+        }
+    }
+
+    /* FUNCIONES PARA BLOQUEAR/DESBLOQUEAR CUANDO HAY UNA ANIMACIÓN */
+
+    lockAnimation() {
+        this.state.isAnimating = true;
+    }
+    unlockAnimation() {
+        this.state.isAnimating = false;
+    }
+
+    /* FUNCIONES PARA AVANZAR A LA ANTERIOR O SIGUIENTE IMAGEN */
+
+    prev() {
+        this.goTo(this.getSlideIndex(-1), 'prev');
+    }
+    next() {
+        this.goTo(this.getSlideIndex(1), 'next');
+    }
+    goTo(targetIndex, direction) {
+        if (this.state.isAnimating || targetIndex === this.state.currentIndex) {
+            return;
+        }
+
+        this.lockAnimation();
+
+        this.updateSlides(targetIndex, direction);
+        if (this.options.showDots) {
+            this.renderDots(direction);
+        }
+
+        if (this.options.showControls && !this.options.loop) {
+            setTimeout(() => {
+                this.updateControls();
+            }, this.options.transitionDuration / 2);
+        }
+    }
+
+    /* FUNCIONES PARA ACTUALIZAR DIFERENTES ELEMENTOS AL AVANZAR A OTRA IMAGEN */
+
+    updateSlides(targetIndex, direction) {
+        let newSlide;
+        if (!this.options.loop && ((direction === 'next' && this.state.currentIndex === this.options.images.length - (this.options.slidesToShow === 3 ? 2 : 1)) || (direction === 'prev' && this.state.currentIndex === (this.options.slidesToShow === 3 ? 1 : 0)))) {
+            newSlide = this.createElement('div', ['crl__slide', 'crl__slide--inactive', 'crl__slide--hidden']);
+        } else {
+            newSlide = this.createSlide(['crl__slide', 'crl__slide--inactive', 'crl__slide--hidden']);
+            this.renderImg(newSlide.querySelector('img'), this.getSlideIndex((this.options.slidesToShow === 3 ? 2 : 1) * (direction === 'next' ? 1 : -1)));
+        }
+        newSlide.style.setProperty('--duration', `${this.options.transitionDuration}ms`);
+        this.state.currentIndex = targetIndex;
+        if (direction === 'next') {
+            this.slider.appendChild(newSlide);
+            this.howSlidesToAnimate(this.slidePrev, this.slideActive, this.slideNext, newSlide);
+        } else {
+            this.slider.prepend(newSlide);
+            this.howSlidesToAnimate(this.slideNext, this.slideActive, this.slidePrev, newSlide);
+        }
+    }
+    howSlidesToAnimate(slide1, slide2, slide3, slide4) {
+        if (this.options.slidesToShow === 3) {
+            this.animationSlides(slide1, slide2, slide3, slide4);
+        } else {
+            this.animationSlides(slide2, slide2, slide4, slide4);
+        }
+    }
+    animationSlides(slideToHide, slideToInactive, slideToActive, slideToShow) {
+        void slideToShow.offsetWidth;
+        requestAnimationFrame(() => {
+            slideToHide.classList.add('crl__slide--hidden');
+            slideToInactive.classList.replace('crl__slide--active', 'crl__slide--inactive');
+            slideToActive.classList.replace('crl__slide--inactive', 'crl__slide--active');
+            slideToShow.classList.remove('crl__slide--hidden');
+        });
+        slideToHide.addEventListener(
+            'transitionend',
+            () => {
+                slideToHide.remove();
+                this.cacheSlides();
+                this.unlockAnimation();
+            },
+            { once: true },
+        );
+    }
+    updateControls() {
+        if (this.ctrlPrev && this.state.currentIndex === 0) {
+            this.ctrlPrev.remove();
+            this.cacheControls();
+        } else if (!this.ctrlPrev && this.state.currentIndex > 0) {
+            this.inner.prepend(this.createControl('crl__control--prev', 'Anterior', 'fa-angle-left'));
+            this.cacheControls();
+            this.bindCtrlEvents(true, false);
+        }
+        if (this.ctrlNext && this.state.currentIndex === this.options.images.length - 1) {
+            this.ctrlNext.remove();
+            this.cacheControls();
+        } else if (!this.ctrlNext && this.state.currentIndex < this.options.images.length - 1) {
+            this.inner.appendChild(this.createControl('crl__control--next', 'Siguiente', 'fa-angle-right'));
+            this.cacheControls();
+            this.bindCtrlEvents(false, true);
+        }
+    }
+    updateDots(offset) {
+        this.navDots.childNodes.forEach((dot, index) => {
+            if (this.getDotIndex(index + offset) === this.state.currentIndex) {
+                dot.classList.add('crl__dot--active');
+            } else {
+                dot.classList.remove('crl__dot--active');
+            }
+            if ((this.options.loop && this.options.images.length > this.options.maxDots && (index + offset === 0 || index + offset === this.options.maxDots - 1)) || (!this.options.loop && ((index + offset === 0 && this.getDotIndex(index + offset) > 0) || (index + offset === this.options.maxDots - 1 && this.getDotIndex(index + offset) < this.options.images.length - 1)))) {
+                dot.classList.add('crl__dot--edge');
+            } else {
+                dot.classList.remove('crl__dot--edge');
+            }
+        });
+    }
+
+    /* FUNCIÓN PARA MOSTRAR ERRORES */
+
+    showErrors() {
+        this.errorMsg.forEach((msg) => console.log(msg));
+    }
 }
 
-// Eportación de dependencias
-export { cargarCarousel };
+// Exportación de dependencias
+export { Carousel };

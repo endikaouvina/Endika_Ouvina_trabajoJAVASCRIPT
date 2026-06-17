@@ -10,17 +10,17 @@ body {
     width: 100%;
     min-height: 100vh;
 }
-main {
+body > main {
     flex: 1;
     padding-top: 105.6px;
 }
-section {
+body > section {
     padding: 2rem 1rem;
 }
-section:nth-child(odd) {
+body > section:nth-child(odd) {
     background-color: #85abff;
 }
-section:nth-child(even) {
+body > section:nth-child(even) {
     background-color: #c2d5ff;
 }
 h1 {
@@ -42,12 +42,12 @@ a:active {
     font-weight: bold;
     text-decoration: none;
 }
-header a,
-header a:active,
-nav a,
-nav a:active,
-footer a,
-footer a:active {
+body > header a,
+body > header a:active,
+body > nav a,
+body > nav a:active,
+body > footer a,
+body > footer a:active {
     color: inherit;
     font-weight: normal;
 }
@@ -59,32 +59,32 @@ a:focus-visible {
 /* HEADER, NAV Y FOOTER */
 
 header,
-nav,
-footer {
+body > nav,
+body > footer {
     background-color: #2f4f4f;
     color: #fff;
 }
-header,
-footer {
+body > header,
+body > footer {
     padding: 0.3rem 0;
 }
-header,
-nav {
+body > header,
+body > nav {
     position: fixed;
     z-index: 1000;
     width: 100%;
     top: 0;
 }
-nav .col {
+body > nav .col {
     padding: 0.5rem;
 }
-nav .active {
+body > nav .active {
     background-color: #62a4a4;
     color: #000;
 }
 
 /* HACERLO EN JAVASCRIPT */
-nav {
+body > nav {
     top: 65.6px;
 }
 /* HACERLO EN JAVASCRIPT */
