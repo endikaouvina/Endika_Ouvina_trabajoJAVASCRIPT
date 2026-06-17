@@ -11,7 +11,7 @@ import { eventosPresupuesto } from './modules/presupuesto.js';
 const PAGE_URL = window.location.pathname;
 
 // Inicialización específica para cada página
-if (PAGE_URL === '/' || PAGE_URL.includes('index.html') || PAGE_URL === '/Endika_Ouvina_trabajoJAVASCRIPT') {
+if (PAGE_URL === '/' || PAGE_URL.includes('index.html') || PAGE_URL === '/Endika_Ouvina_trabajoJAVASCRIPT/') {
     cargarJSON();
 } else if (PAGE_URL.includes('galeria.html')) {
     new Carousel({
