@@ -134,7 +134,7 @@
         max-width: 1320px;
     }
 }
-@media (max-width: 767px) {
+@media not all and (min-width: 768px) {
     .crl {
         max-width: 100%;
     }

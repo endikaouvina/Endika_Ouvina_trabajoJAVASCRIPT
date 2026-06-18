@@ -2,6 +2,7 @@
     --mn-a-color: #62a4a4;
     --mn-primary-bgColor: #2f4f4f;
     --mn-primary-color: #fff;
+    --mn-header-footer-padding: 0.3rem;
     --mn-nav-active-bgColor: #62a4a4;
     --mn-nav-active-color: #000;
     --mn-nav-dropdown-menu-border-color: #2f4f4f;
@@ -56,13 +57,14 @@ body > footer {
 }
 body > header,
 body > footer {
-    padding: 0.3rem;
+    padding: var(--mn-header-footer-padding);
 }
 body > header,
 body > nav:first-of-type {
     position: fixed;
     width: 100%;
     top: 0;
+    right: var(--mn-header-footer-padding);
 }
 body > nav:first-of-type .col {
     padding: 0.5rem;
@@ -149,7 +151,7 @@ i.budget__btn-delete-product {
         flex-direction: column;
     }
 }
-@media (min-height: 801px) {
+@media not all and (max-height: 800px) {
     body > nav:first-of-type .dropdown-menu {
         position: relative !important;
         inset: auto !important;
@@ -168,9 +170,7 @@ i.budget__btn-delete-product {
     }
     body > nav:first-of-type {
         background-color: transparent;
-    }
-    body > nav:first-of-type .container-md {
-        text-align: right;
+        width: fit-content;
     }
     body > nav:first-of-type div[type='button'] {
         display: inline-block;
@@ -180,6 +180,9 @@ i.budget__btn-delete-product {
         display: none;
         border-radius: 0.375rem;
     }
+    body > nav:first-of-type .dropdown-menu.show {
+        display: block;
+    }
     body > nav:first-of-type .dropdown-menu .col:first-of-type {
         border-top-left-radius: calc(0.375rem - 1px);
         border-top-right-radius: calc(0.375rem - 1px);
@@ -187,5 +190,25 @@ i.budget__btn-delete-product {
     body > nav:first-of-type .dropdown-menu .col:last-of-type {
         border-bottom-left-radius: calc(0.375rem - 1px);
         border-bottom-right-radius: calc(0.375rem - 1px);
+    }
+}
+@media (max-height: 800px) and (min-width: 768px) {
+    body > nav:first-of-type {
+        right: calc((100vw - 720px) / 2);
+    }
+}
+@media (max-height: 800px) and (min-width: 992px) {
+    body > nav:first-of-type {
+        right: calc((100vw - 960px) / 2);
+    }
+}
+@media (max-height: 800px) and (min-width: 1200px) {
+    body > nav:first-of-type {
+        right: calc((100vw - 1140px) / 2);
+    }
+}
+@media (max-height: 800px) and (min-width: 1400px) {
+    body > nav:first-of-type {
+        right: calc((100vw - 1320px) / 2);
     }
 }
