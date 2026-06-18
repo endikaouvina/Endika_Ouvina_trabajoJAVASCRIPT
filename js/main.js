@@ -1,7 +1,7 @@
 'use strict';
 
 // Dependencias de la aplicación
-import { addObserverPosition } from './modules/adjustPosition.js';
+import { addEventObserver } from './modules/adjustPosition.js';
 import { cargarJSON } from './modules/json.js';
 import { Carousel } from './modules/carousel.js';
 import { createMap } from './modules/map.js';
@@ -12,7 +12,7 @@ import { budgetEvents } from './modules/budget.js';
 const PAGE_URL = window.location.pathname;
 
 // Se ajustan posiciones y se agrega ResizeObserver al header y al nav
-addObserverPosition();
+addEventObserver();
 
 // Inicialización específica para cada página
 if (PAGE_URL === '/' || PAGE_URL.includes('index.html') || PAGE_URL === '/Endika_Ouvina_trabajoJAVASCRIPT/') {

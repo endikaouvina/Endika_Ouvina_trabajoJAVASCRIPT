@@ -22,7 +22,7 @@ function adjustPosition() {
     }
 }
 
-function addObserverPosition() {
+function addEventObserver() {
     const observer = new ResizeObserver(() => {
         adjustPosition();
     });
@@ -36,4 +36,4 @@ function addObserverPosition() {
 }
 
 // Exportación de dependencias
-export { addObserverPosition };
+export { addEventObserver };

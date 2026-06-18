@@ -23,6 +23,15 @@ body {
     width: 100%;
     min-height: 100vh;
 }
+h1 {
+    display: inline-block;
+    margin: 0.5rem 0;
+}
+h2 {
+    font-family: 'Roboto', sans-serif;
+    font-weight: bold;
+    font-style: normal;
+}
 
 /* ENLACES */
 
@@ -48,6 +57,14 @@ body > footer a:active {
 
 /* HEADER, MAIN, NAV Y FOOTER */
 
+header a * {
+    vertical-align: middle;
+}
+header .logo {
+    height: 48px;
+    width: auto;
+    margin: 0.5rem 0;
+}
 header,
 body > nav:first-of-type,
 body > footer {
@@ -100,9 +117,6 @@ body > footer .col {
 
 /* VARIEDAD */
 
-h1 {
-    display: inline-block;
-}
 i.product__btn-add-product,
 i.budget__btn-delete-product {
     cursor: pointer;
@@ -165,9 +179,6 @@ i.budget__btn-delete-product {
     }
 }
 @media (max-height: 800px) {
-    body > header h1 {
-        margin-bottom: 0;
-    }
     body > nav:first-of-type {
         background-color: transparent;
         width: fit-content;
