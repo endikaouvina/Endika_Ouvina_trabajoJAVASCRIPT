@@ -4,9 +4,9 @@
 import { addObserverPosition } from './modules/adjustPosition.js';
 import { cargarJSON } from './modules/json.js';
 import { Carousel } from './modules/carousel.js';
-import { crearMapa } from './modules/map.js';
+import { createMap } from './modules/map.js';
 import { formEvents } from './modules/formValidation.js';
-import { budgetEvents } from './modules/presupuesto.js';
+import { budgetEvents } from './modules/budget.js';
 
 // Variables globales
 const PAGE_URL = window.location.pathname;
@@ -46,7 +46,7 @@ if (PAGE_URL === '/' || PAGE_URL.includes('index.html') || PAGE_URL === '/Endika
         transitionDuration: 200,
     });
 } else if (PAGE_URL.includes('contacto.html')) {
-    crearMapa();
+    createMap();
 } else if (PAGE_URL.includes('presupuesto.html')) {
     formEvents();
     budgetEvents();

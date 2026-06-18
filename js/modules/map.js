@@ -29,7 +29,7 @@ function initMap() {
 }
 
 // Función para evitar la propagación de scroll y click en la ruta
-function evitarPropagacion() {
+function preventPropagation() {
     RUTA_DIV.forEach((div) => {
         L.DomEvent.disableScrollPropagation(div);
         L.DomEvent.disableClickPropagation(div);
@@ -58,7 +58,7 @@ function success(position) {
     }
 
     // Se evita la propagación de scroll y click en el cuadro de la ruta
-    evitarPropagacion();
+    preventPropagation();
 }
 
 // Función para mostrar el mensaje de error en consola
@@ -67,7 +67,7 @@ function error(err) {
 }
 
 // Función para crear el mapa y comprobar la geolocalización
-function crearMapa() {
+function createMap() {
     initMap();
 
     if (navigator.geolocation) {
@@ -78,4 +78,4 @@ function crearMapa() {
 }
 
 // Exportación de dependencias
-export { crearMapa };
+export { createMap };

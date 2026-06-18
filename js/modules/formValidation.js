@@ -1,9 +1,9 @@
 'use strict';
 
 // Dependencias de la aplicación
-import { cartItems } from './presupuesto.js';
-import { resetBudget } from './presupuesto.js';
-import { resetCart } from './presupuesto.js';
+import { cartItems } from './budget.js';
+import { resetBudget } from './budget.js';
+import { resetCart } from './budget.js';
 
 // Elementos del DOM
 const FORM = document.querySelector('#form');
