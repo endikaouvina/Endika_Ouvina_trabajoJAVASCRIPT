@@ -1,91 +1,91 @@
 'use strict';
 
 // Dependencias de la aplicación
-import { carritoProductos } from './presupuesto.js';
-import { resetearPresupuesto } from './presupuesto.js';
-import { resetearCarrito } from './presupuesto.js';
+import { cartItems } from './presupuesto.js';
+import { resetBudget } from './presupuesto.js';
+import { resetCart } from './presupuesto.js';
 
 // Elementos del DOM
-const FORMULARIO = document.querySelector('#form');
-const NOMBRE_INPUT = document.querySelector('#nombre');
-const NOMBRE_ERROR = document.querySelector('#errorNombre');
-const APELLIDOS_INPUT = document.querySelector('#apellidos');
-const APELLIDOS_ERROR = document.querySelector('#errorApellidos');
-const TELEFONO_INPUT = document.querySelector('#telefono');
-const TELEFONO_ERROR = document.querySelector('#errorTelefono');
+const FORM = document.querySelector('#form');
+const NAME_INPUT = document.querySelector('#name');
+const NAME_ERROR = document.querySelector('#name-error');
+const SURNAMES_INPUT = document.querySelector('#surnames');
+const SURNAMES_ERROR = document.querySelector('#surnames-error');
+const NUMBER_INPUT = document.querySelector('#number');
+const NUMBER_ERROR = document.querySelector('#number-error');
 const EMAIL_INPUT = document.querySelector('#email');
-const EMAIL_ERROR = document.querySelector('#errorEmail');
-const PRODUCTO_INPUT = document.querySelector('#producto');
-const PRODUCTO_ERROR = document.querySelector('#errorProducto');
-const PLAZO_INPUT = document.querySelector('#plazo');
-const PLAZO_ERROR = document.querySelector('#errorPlazo');
-const CONDICIONES_INPUT = document.querySelector('#condiciones');
-const CONDICIONES_ERROR = document.querySelector('#errorCondiciones');
-const BTN_AGREGAR = document.querySelector('#botonAgregar');
-const BTN_RESET = document.querySelector('#btnReset');
-const BTN_SUBMIT = document.querySelector('#btnSubmit');
-const PRESUPUESTO = document.querySelector('#presupuesto');
+const EMAIL_ERROR = document.querySelector('#email-error');
+const PRODUCT_SELECT = document.querySelector('#product');
+const PRODUCT_ERROR = document.querySelector('#product-error');
+const DELIVERY_TIME_INPUT = document.querySelector('#delivery-time');
+const DELIVERY_TIME_ERROR = document.querySelector('#delivery-time-error');
+const CONDITIONS_INPUT = document.querySelector('#conditions');
+const CONDITIONS_ERROR = document.querySelector('#conditions-error');
+const BTN_ADD_PRODUCT = document.querySelector('#btn-add-product');
+const BTN_RESET = document.querySelector('#btn-reset');
+const BTN_SUBMIT = document.querySelector('#btn-submit');
+const BUDGET = document.querySelector('#budget');
 
 // Variables globales
-const NOMBRE_TEST_LENGTH = [/^.{1,15}$/, 'Entre 1 y 15 caracteres, ambos inclusive.'];
-const NOMBRE_TEST_CHAR = [/^\p{L}+(?: \p{L}+)*$/u, 'Únicamente letras y/o espacios.'];
-const APELLIDOS_TEST_LENGTH = [/^.{1,40}$/, 'Entre 1 y 40 caracteres, ambos inclusive.'];
-const APELLIDOS_TEST_CHAR_1 = [/^\p{L}+(?: \p{L}+)*$/u, 'Únicamente letras y espacios.'];
-const APELLIDOS_TEST_CHAR_2 = [/^\p{L}+(?: \p{L}+)+$/u, 'Mínimo 2 apellidos.'];
-const TELEFONO_TEST_LENGH = [/^.{9}$/, 'Únicamente 9 caracteres.'];
-const TELEFONO_TEST_CHAR_1 = [/^[0-9]+$/, 'Únicamente números.'];
-const TELEFONO_TEST_CHAR_2 = [/^[6-9]/, 'Empieza por 6, 7, 8 o 9.'];
+const NAME_TEST_LENGTH = [/^.{1,15}$/, 'Entre 1 y 15 caracteres, ambos inclusive.'];
+const NAME_TEST_CHAR = [/^\p{L}+(?: \p{L}+)*$/u, 'Únicamente letras y/o espacios.'];
+const SURNAMES_TEST_LENGTH = [/^.{1,40}$/, 'Entre 1 y 40 caracteres, ambos inclusive.'];
+const SURNAMES_TEST_CHAR_1 = [/^\p{L}+(?: \p{L}+)*$/u, 'Únicamente letras y espacios.'];
+const SURNAMES_TEST_CHAR_2 = [/^\p{L}+(?: \p{L}+)+$/u, 'Mínimo 2 apellidos.'];
+const NUMBER_TEST_LENGH = [/^.{9}$/, 'Únicamente 9 caracteres.'];
+const NUMBER_TEST_CHAR_1 = [/^[0-9]+$/, 'Únicamente números.'];
+const NUMBER_TEST_CHAR_2 = [/^[6-9]/, 'Empieza por 6, 7, 8 o 9.'];
 const EMAIL_TEST_LENGTH = [/^.{6,}$/, 'Mínimo 6 caracteres.'];
 const EMAIL_TEST_CHAR = [/^[a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.[a-zA-Z]{2,}$/, 'Formato x@x.xx'];
-const PRODUCTO_TEST_CHAR = [/^.+$/, 'Producto seleccionado.'];
-const PLAZO_TEST_CHAR_1 = [/^[0-9]+$/, 'Únicamente números.'];
-const PLAZO_TEST_CHAR_2 = [/^(?:[1-9]|[12][0-9]|30)$/, 'Entre el 1 y el 30, ambos inclusive.'];
-const MSG_PRESUPUESTO = '<div class="text-warning-emphasis text-opacity-75">Selecciona un producto y un plazo válidos para calcular el presupuesto.<br>Podrás agregar y eliminar productos, cambiar el plazo (te dará un descuento u otro dependiendo del número de días), así como seleccionar y deseleccionar extras.</div>';
-let camposVacios = [];
-let camposNoValidados = [];
+const PRODUCT_TEST_CHAR = [/^.+$/, 'Producto seleccionado.'];
+const DELIVERY_TIME_TEST_CHAR_1 = [/^[0-9]+$/, 'Únicamente números.'];
+const DELIVERY_TIME_TEST_CHAR_2 = [/^(?:[1-9]|[12][0-9]|30)$/, 'Entre el 1 y el 30, ambos inclusive.'];
+const BUDGET_MSG = '<div class="text-warning-emphasis text-opacity-75">Selecciona un producto y un plazo válidos para calcular el presupuesto.<br>Podrás agregar y eliminar productos, cambiar el plazo (te dará un descuento u otro dependiendo del número de días), así como seleccionar y deseleccionar extras.</div>';
+let emptyFields = [];
+let noValidatedFields = [];
 
 // Función para validar el campo pasado por parámetro
-function validarCampo(submit, campo, campoError, regEx1, regEx2, regEx3) {
+function validateInput(submit, input, inputError, regEx1, regEx2, regEx3) {
     // Variables locales
     let testRegEx1, testRegEx2, testRegEx3;
     let errorMsg = '';
 
     // Formateo del texto introducido
-    let formateo = campo.value.replace(/\s+/g, ' ');
-    if (campo.type === 'tel' || campo.type === 'email') {
-        formateo.trim();
+    let format = input.value.replace(/\s+/g, ' ');
+    if (input.type === 'tel' || input.type === 'email') {
+        format.trim();
     }
-    campo.value = formateo;
+    input.value = format;
 
     // Si se envía el formulario, el campo contiene texto o es un campo de tipo select, se comprueba su validación
-    if (submit || campo.value.length > 0 || campo.tagName === 'SELECT') {
+    if (submit || input.value.length > 0 || input.tagName === 'SELECT') {
         // Al enviar el formulario, se comprueba si está vacío el campo que no sea tipo select
-        if (submit && campo.value.length === 0 && campo.tagName !== 'SELECT') {
+        if (submit && input.value.length === 0 && input.tagName !== 'SELECT') {
             errorMsg += '<span class="text-danger"><i class="fa-solid fa-xmark me-2"></i>Campo completado.</span>';
         }
 
         // Se testean los regEx que pueda tener el campo
-        testRegEx1 = regEx1[0].test(formateo);
+        testRegEx1 = regEx1[0].test(format);
         if (regEx2 !== undefined) {
-            testRegEx2 = regEx2[0].test(formateo);
+            testRegEx2 = regEx2[0].test(format);
         }
         if (regEx3 !== undefined) {
-            testRegEx3 = regEx3[0].test(formateo);
+            testRegEx3 = regEx3[0].test(format);
         }
 
         // Si se valida el campo, se actualizan las clases y se devuelve true
-        if (((!submit && testRegEx1) || (submit && ((testRegEx1 && campo.tagName !== 'SELECT') || (testRegEx1 && campo.tagName === 'SELECT' && carritoProductos.length > 0)))) && (regEx2 === undefined || (regEx2 !== undefined && testRegEx2)) && (regEx3 === undefined || (regEx3 !== undefined && testRegEx3))) {
-            if (campo.tagName !== 'SELECT') {
-                campo.classList.add('is-valid');
+        if (((!submit && testRegEx1) || (submit && ((testRegEx1 && input.tagName !== 'SELECT') || (testRegEx1 && input.tagName === 'SELECT' && cartItems.length > 0)))) && (regEx2 === undefined || (regEx2 !== undefined && testRegEx2)) && (regEx3 === undefined || (regEx3 !== undefined && testRegEx3))) {
+            if (input.tagName !== 'SELECT') {
+                input.classList.add('is-valid');
             }
-            campo.classList.remove('is-invalid');
-            campoError.classList.remove('mt-1');
-            campoError.innerHTML = '';
+            input.classList.remove('is-invalid');
+            inputError.classList.remove('mt-1');
+            inputError.innerHTML = '';
             return true;
         }
 
         // Si no se valida el campo, se crea un mensaje de error con los test definidos
-        if ((!submit && testRegEx1) || (submit && ((testRegEx1 && campo.tagName !== 'SELECT') || (testRegEx1 && campo.tagName === 'SELECT' && carritoProductos.length > 0)))) {
+        if ((!submit && testRegEx1) || (submit && ((testRegEx1 && input.tagName !== 'SELECT') || (testRegEx1 && input.tagName === 'SELECT' && cartItems.length > 0)))) {
             errorMsg += '<span class="text-success"><i class="fa-solid fa-check me-2"></i>' + regEx1[1] + '</span>';
         } else {
             errorMsg += '<span class="text-danger"><i class="fa-solid fa-xmark me-2"></i>' + regEx1[1] + '</span>';
@@ -106,15 +106,15 @@ function validarCampo(submit, campo, campoError, regEx1, regEx2, regEx3) {
         }
 
         // Se actualizan las clases y se muestra el mensaje de error
-        campo.classList.add('is-invalid');
-        campo.classList.remove('is-valid');
-        campoError.classList.add('mt-1');
-        campoError.innerHTML = errorMsg;
+        input.classList.add('is-invalid');
+        input.classList.remove('is-valid');
+        inputError.classList.add('mt-1');
+        inputError.innerHTML = errorMsg;
     } else {
         // Si no se envía el formulario, el campo está vacío y no es un campo de tipo select, se eliminan las clases y el mensaje de error
-        campo.classList.remove('is-valid', 'is-invalid');
-        campoError.classList.remove('mt-1');
-        campoError.innerHTML = '';
+        input.classList.remove('is-valid', 'is-invalid');
+        inputError.classList.remove('mt-1');
+        inputError.innerHTML = '';
     }
 
     // Si no se valida el campo, se devuelve false
@@ -122,64 +122,64 @@ function validarCampo(submit, campo, campoError, regEx1, regEx2, regEx3) {
 }
 
 // Función para validar el nombre
-function validarNombre(submit) {
-    if (!validarCampo(submit, NOMBRE_INPUT, NOMBRE_ERROR, NOMBRE_TEST_LENGTH, NOMBRE_TEST_CHAR)) {
-        if (NOMBRE_INPUT.value.length === 0) {
-            camposVacios.push(NOMBRE_INPUT.placeholder);
+function validateName(submit) {
+    if (!validateInput(submit, NAME_INPUT, NAME_ERROR, NAME_TEST_LENGTH, NAME_TEST_CHAR)) {
+        if (NAME_INPUT.value.length === 0) {
+            emptyFields.push(NAME_INPUT.placeholder);
         } else {
-            camposNoValidados.push(NOMBRE_INPUT.placeholder);
+            noValidatedFields.push(NAME_INPUT.placeholder);
         }
     }
 }
 
 // Función para validar los apellidos
-function validarApellidos(submit) {
-    if (!validarCampo(submit, APELLIDOS_INPUT, APELLIDOS_ERROR, APELLIDOS_TEST_LENGTH, APELLIDOS_TEST_CHAR_1, APELLIDOS_TEST_CHAR_2)) {
-        if (APELLIDOS_INPUT.value.length === 0) {
-            camposVacios.push(APELLIDOS_INPUT.placeholder);
+function validateSurnames(submit) {
+    if (!validateInput(submit, SURNAMES_INPUT, SURNAMES_ERROR, SURNAMES_TEST_LENGTH, SURNAMES_TEST_CHAR_1, SURNAMES_TEST_CHAR_2)) {
+        if (SURNAMES_INPUT.value.length === 0) {
+            emptyFields.push(SURNAMES_INPUT.placeholder);
         } else {
-            camposNoValidados.push(APELLIDOS_INPUT.placeholder);
+            noValidatedFields.push(SURNAMES_INPUT.placeholder);
         }
     }
 }
 
 // Función para validar el teléfono
-function validarTelefono(submit) {
-    if (!validarCampo(submit, TELEFONO_INPUT, TELEFONO_ERROR, TELEFONO_TEST_LENGH, TELEFONO_TEST_CHAR_1, TELEFONO_TEST_CHAR_2)) {
-        if (TELEFONO_INPUT.value.length === 0) {
-            camposVacios.push(TELEFONO_INPUT.placeholder);
+function validatePhoneNumber(submit) {
+    if (!validateInput(submit, NUMBER_INPUT, NUMBER_ERROR, NUMBER_TEST_LENGH, NUMBER_TEST_CHAR_1, NUMBER_TEST_CHAR_2)) {
+        if (NUMBER_INPUT.value.length === 0) {
+            emptyFields.push(NUMBER_INPUT.placeholder);
         } else {
-            camposNoValidados.push(TELEFONO_INPUT.placeholder);
+            noValidatedFields.push(NUMBER_INPUT.placeholder);
         }
     }
 }
 
 // Función para validar el email
-function validarEmail(submit) {
-    if (!validarCampo(submit, EMAIL_INPUT, EMAIL_ERROR, EMAIL_TEST_LENGTH, EMAIL_TEST_CHAR)) {
+function validateEmail(submit) {
+    if (!validateInput(submit, EMAIL_INPUT, EMAIL_ERROR, EMAIL_TEST_LENGTH, EMAIL_TEST_CHAR)) {
         if (EMAIL_INPUT.value.length === 0) {
-            camposVacios.push(EMAIL_INPUT.placeholder);
+            emptyFields.push(EMAIL_INPUT.placeholder);
         } else {
-            camposNoValidados.push(EMAIL_INPUT.placeholder);
+            noValidatedFields.push(EMAIL_INPUT.placeholder);
         }
     }
 }
 
 // Función para validar el producto
-function validarProducto(submit) {
-    if (validarCampo(submit, PRODUCTO_INPUT, PRODUCTO_ERROR, PRODUCTO_TEST_CHAR)) {
+function validateProduct(submit) {
+    if (validateInput(submit, PRODUCT_SELECT, PRODUCT_ERROR, PRODUCT_TEST_CHAR)) {
         return true;
     }
     return false;
 }
 
 // Función para validar el plazo
-function validarPlazo(submit) {
-    if (!validarCampo(submit, PLAZO_INPUT, PLAZO_ERROR, PLAZO_TEST_CHAR_1, PLAZO_TEST_CHAR_2)) {
-        if (PLAZO_INPUT.value.length === 0) {
-            camposVacios.push(PLAZO_INPUT.placeholder);
+function validateDeliveryTime(submit) {
+    if (!validateInput(submit, DELIVERY_TIME_INPUT, DELIVERY_TIME_ERROR, DELIVERY_TIME_TEST_CHAR_1, DELIVERY_TIME_TEST_CHAR_2)) {
+        if (DELIVERY_TIME_INPUT.value.length === 0) {
+            emptyFields.push(DELIVERY_TIME_INPUT.placeholder);
         } else {
-            camposNoValidados.push(PLAZO_INPUT.placeholder);
+            noValidatedFields.push(DELIVERY_TIME_INPUT.placeholder);
         }
         return false;
     }
@@ -187,153 +187,177 @@ function validarPlazo(submit) {
 }
 
 // Función para resetear el formulario
-function resetearFormulario() {
+function resetForm() {
     // Se resetean las variables
-    camposVacios = [];
-    camposNoValidados = [];
+    emptyFields = [];
+    noValidatedFields = [];
 
     // Se eliminan todas las clases
-    NOMBRE_INPUT.classList.remove('is-valid', 'is-invalid');
-    NOMBRE_ERROR.classList.remove('mt-1');
-    APELLIDOS_INPUT.classList.remove('is-valid', 'is-invalid');
-    APELLIDOS_ERROR.classList.remove('mt-1');
-    TELEFONO_INPUT.classList.remove('is-valid', 'is-invalid');
-    TELEFONO_ERROR.classList.remove('mt-1');
+    NAME_INPUT.classList.remove('is-valid', 'is-invalid');
+    NAME_ERROR.classList.remove('mt-1');
+    SURNAMES_INPUT.classList.remove('is-valid', 'is-invalid');
+    SURNAMES_ERROR.classList.remove('mt-1');
+    NUMBER_INPUT.classList.remove('is-valid', 'is-invalid');
+    NUMBER_ERROR.classList.remove('mt-1');
     EMAIL_INPUT.classList.remove('is-valid', 'is-invalid');
     EMAIL_ERROR.classList.remove('mt-1');
-    PRODUCTO_INPUT.classList.remove('is-valid', 'is-invalid');
-    PRODUCTO_ERROR.classList.remove('mt-1');
-    PLAZO_INPUT.classList.remove('is-valid', 'is-invalid');
-    PLAZO_ERROR.classList.remove('mt-1');
-    CONDICIONES_INPUT.classList.remove('is-invalid');
-    CONDICIONES_ERROR.classList.remove('mt-1');
+    PRODUCT_SELECT.classList.remove('is-valid', 'is-invalid');
+    PRODUCT_ERROR.classList.remove('mt-1');
+    DELIVERY_TIME_INPUT.classList.remove('is-valid', 'is-invalid');
+    DELIVERY_TIME_ERROR.classList.remove('mt-1');
+    CONDITIONS_INPUT.classList.remove('is-invalid');
+    CONDITIONS_ERROR.classList.remove('mt-1');
 
     // Se eliminan los mensajes de error
-    NOMBRE_ERROR.innerHTML = '';
-    APELLIDOS_ERROR.innerHTML = '';
-    TELEFONO_ERROR.innerHTML = '';
+    NAME_ERROR.innerHTML = '';
+    SURNAMES_ERROR.innerHTML = '';
+    NUMBER_ERROR.innerHTML = '';
     EMAIL_ERROR.innerHTML = '';
-    PRODUCTO_ERROR.innerHTML = '';
-    PLAZO_ERROR.innerHTML = '';
-    CONDICIONES_ERROR.innerHTML = '';
+    PRODUCT_ERROR.innerHTML = '';
+    DELIVERY_TIME_ERROR.innerHTML = '';
+    CONDITIONS_ERROR.innerHTML = '';
 
     // Se resetean el presupuesto, el carrito y el formulario
-    resetearPresupuesto();
-    resetearCarrito();
-    FORMULARIO.reset();
+    resetBudget();
+    resetCart();
+    FORM.reset();
 }
 
 // Función para enviar el formulario
-function enviarFormulario() {
+function submitForm() {
     // Se resetean las variables
-    camposVacios = [];
-    camposNoValidados = [];
+    emptyFields = [];
+    noValidatedFields = [];
 
     // Se valida cada campo
-    validarNombre(true);
-    validarApellidos(true);
-    validarTelefono(true);
-    validarEmail(true);
-    validarProducto(true);
-    validarPlazo(true);
+    validateName(true);
+    validateSurnames(true);
+    validatePhoneNumber(true);
+    validateEmail(true);
+    validateProduct(true);
+    validateDeliveryTime(true);
 
     // Si todo está validado, se envía el formulario
-    if (camposNoValidados.length === 0 && carritoProductos.length > 0 && CONDICIONES_INPUT.checked) {
+    if (noValidatedFields.length === 0 && cartItems.length > 0 && CONDITIONS_INPUT.checked) {
         /*
             Aquí se crearía un JSON y se enviaría al archivo correspondiente del servidor para que el formulario quede registrado donde corresponda
         */
-        resetearFormulario();
+        resetForm();
         alert('Formulario enviado correctamente.');
     } else {
         // Si algún campo no está validado o no se ha seleccionado ningún producto, se genera el mensaje de error
-        let msgEnvio = '';
+        let submitMsg = '';
 
         // Función para el comienzo de los errores de campos vacíos y campos no validados
-        function msgCampos(array) {
+        function fieldsMsg(array) {
             if (array.length === 1) {
-                msgEnvio += 'El campo ';
+                submitMsg += 'El campo ';
             } else if (array.length > 1) {
-                msgEnvio += 'Los campos ';
+                submitMsg += 'Los campos ';
             }
-            array.forEach((campo, index) => {
-                msgEnvio += campo;
+            array.forEach((field, index) => {
+                submitMsg += field;
                 if (index < array.length - 2) {
-                    msgEnvio += ', ';
+                    submitMsg += ', ';
                 } else if (index < array.length - 1) {
-                    msgEnvio += ' y ';
+                    submitMsg += ' y ';
                 }
             });
         }
 
         // Se detectan los campos vacíos
-        msgCampos(camposVacios);
-        if (camposVacios.length === 1) {
-            msgEnvio += ' no está completado.';
-        } else if (camposVacios.length > 1) {
-            msgEnvio += ' no están completados.';
+        fieldsMsg(emptyFields);
+        if (emptyFields.length === 1) {
+            submitMsg += ' no está completado.';
+        } else if (emptyFields.length > 1) {
+            submitMsg += ' no están completados.';
         }
 
         // Se detectan los campos no validados
-        if (camposVacios.length > 0 && camposNoValidados.length > 0) {
-            msgEnvio += ' ';
+        if (emptyFields.length > 0 && noValidatedFields.length > 0) {
+            submitMsg += ' ';
         }
-        msgCampos(camposNoValidados);
-        if (camposNoValidados.length === 1) {
-            msgEnvio += ' tiene un formato no válido.';
-        } else if (camposNoValidados.length > 1) {
-            msgEnvio += ' tienen formatos no válidos.';
+        fieldsMsg(noValidatedFields);
+        if (noValidatedFields.length === 1) {
+            submitMsg += ' tiene un formato no válido.';
+        } else if (noValidatedFields.length > 1) {
+            submitMsg += ' tienen formatos no válidos.';
         }
 
         // Se detecta si se ha seleccionado algún producto
-        if ((camposVacios.length > 0 || camposNoValidados.length > 0) && carritoProductos.length === 0) {
-            msgEnvio += ' ';
+        if ((emptyFields.length > 0 || noValidatedFields.length > 0) && cartItems.length === 0) {
+            submitMsg += ' ';
         }
-        if (carritoProductos.length === 0) {
-            msgEnvio += 'No se ha seleccionado ningún producto.';
+        if (cartItems.length === 0) {
+            submitMsg += 'No se ha seleccionado ningún producto.';
         }
 
         // Se detecta si se han aceptado las condiciones
-        if ((camposVacios.length > 0 || camposNoValidados.length > 0 || carritoProductos.length === 0) && !CONDICIONES_INPUT.checked) {
-            msgEnvio += ' ';
+        if ((emptyFields.length > 0 || noValidatedFields.length > 0 || cartItems.length === 0) && !CONDITIONS_INPUT.checked) {
+            submitMsg += ' ';
         }
-        if (!CONDICIONES_INPUT.checked) {
-            CONDICIONES_INPUT.classList.add('is-invalid');
-            CONDICIONES_ERROR.classList.add('mt-1');
-            CONDICIONES_ERROR.innerHTML = '<span class="text-danger"><i class="fa-solid fa-xmark me-2"></i>Condiciones de privacidad aceptadas.</span>';
-            msgEnvio += 'No se han aceptado las condiciones de privacidad.';
+        if (!CONDITIONS_INPUT.checked) {
+            CONDITIONS_INPUT.classList.add('is-invalid');
+            CONDITIONS_ERROR.classList.add('mt-1');
+            CONDITIONS_ERROR.innerHTML = '<span class="text-danger"><i class="fa-solid fa-xmark me-2"></i>Condiciones de privacidad aceptadas.</span>';
+            submitMsg += 'No se han aceptado las condiciones de privacidad.';
         }
 
         // Se muestra el mensaje de error
-        alert(msgEnvio);
+        alert(submitMsg);
     }
 }
 
+// Función para ajustar las posiciones de header, nav y main
+function adjustPadding() {
+    const headerWidth = document.querySelector('body').getBoundingClientRect().width;
+    const formActionsHeight = document.querySelector('#form-actions').getBoundingClientRect().height;
+    const budgetCol = document.querySelector('#budget-col');
+
+    if (headerWidth <= 767) {
+        budgetCol.style.paddingBottom = formActionsHeight + 'px';
+    } else {
+        budgetCol.style.paddingBottom = '0';
+    }
+}
+
+function addObserverPosition() {
+    const observer = new ResizeObserver(() => {
+        adjustPadding();
+    });
+
+    observer.observe(document.querySelector('body'));
+
+    adjustPadding();
+}
+
 // Función para agregar eventos al formulario
-function eventosFormulario() {
-    NOMBRE_INPUT.addEventListener('input', () => {
-        validarNombre(false);
+function formEvents() {
+    NAME_INPUT.addEventListener('input', () => {
+        validateName(false);
     });
-    APELLIDOS_INPUT.addEventListener('input', () => {
-        validarApellidos(false);
+    SURNAMES_INPUT.addEventListener('input', () => {
+        validateSurnames(false);
     });
-    TELEFONO_INPUT.addEventListener('input', () => {
-        validarTelefono(false);
+    NUMBER_INPUT.addEventListener('input', () => {
+        validatePhoneNumber(false);
     });
     EMAIL_INPUT.addEventListener('input', () => {
-        validarEmail(false);
+        validateEmail(false);
     });
-    CONDICIONES_INPUT.addEventListener('click', () => {
-        CONDICIONES_INPUT.classList.remove('is-invalid');
-        CONDICIONES_ERROR.classList.remove('mt-1');
-        CONDICIONES_ERROR.innerHTML = '';
+    CONDITIONS_INPUT.addEventListener('click', () => {
+        CONDITIONS_INPUT.classList.remove('is-invalid');
+        CONDITIONS_ERROR.classList.remove('mt-1');
+        CONDITIONS_ERROR.innerHTML = '';
     });
     BTN_RESET.addEventListener('click', () => {
         if (confirm('¿Seguro que quieres resetear? Se resetearán todos los campos y se eliminará el presupuesto.')) {
-            resetearFormulario();
+            resetForm();
         }
     });
-    BTN_SUBMIT.addEventListener('click', enviarFormulario);
+    BTN_SUBMIT.addEventListener('click', submitForm);
+    addObserverPosition();
 }
 
 // Exportación de dependencias
-export { eventosFormulario, validarProducto, validarPlazo };
+export { formEvents, validateProduct, validateDeliveryTime };

@@ -11,7 +11,7 @@ function createJSONContent(json) {
     json.forEach((elem) => {
         // Se crean los elementos
         const section = createElement('section');
-        const container = createElement('div', ['container']);
+        const container = createElement('div', ['container', 'card-container']);
         const h2 = createElement('h2');
         const row = createElement('div', ['row']);
         elem.cards.forEach((card) => {
@@ -30,7 +30,7 @@ function createJSONContent(json) {
 // Función para crear una tarjeta
 function createCard(card) {
     // Se crean y se agregan los elementos
-    const divCard = createElement('div', ['col', 'card', 'mx-3']);
+    const divCard = createElement('div', ['col-lg', 'card', 'mx-3']);
     const divImg = createElement('div', ['h-100', 'd-flex', 'flex-column', 'justify-content-center']);
     const img = createElement('img', ['card-img'], { src: card.src, alt: card.alt });
     const cardBody = createElement('div', ['card-body']);

@@ -211,7 +211,7 @@ class Carousel {
             } else {
                 slide = this.createSlide(slideClasses);
             }
-            slide.style.setProperty('--duration', `${this.options.transitionDuration}ms`);
+            slide.style.setProperty('--crl__transition-duration', `${this.options.transitionDuration}ms`);
             divSlider.appendChild(slide);
         }
 
@@ -229,7 +229,7 @@ class Carousel {
             const navDots = this.createElement('nav', ['crl__dots'], { 'aria-label': 'Navegación del carrusel' });
             for (let i = 0; i < this.options.maxDots; i++) {
                 const dot = this.createElement('div', ['crl__dot']);
-                dot.style.setProperty('--duration', `${this.options.transitionDuration}ms`);
+                dot.style.setProperty('--crl__transition-duration', `${this.options.transitionDuration}ms`);
                 navDots.appendChild(dot);
             }
             this.container.appendChild(navDots);
@@ -352,7 +352,7 @@ class Carousel {
     renderDots(direction) {
         if (this.options.images.length > this.options.maxDots && (this.options.loop || (!this.options.loop && this.state.currentIndex > Math.floor(this.options.maxDots / 2) - (direction === 'next' ? 0 : 1) && this.state.currentIndex < this.options.images.length - this.options.maxDots / 2 - (direction === 'prev' && this.options.maxDots / 2 !== Math.floor(this.options.maxDots / 2) ? 1 : 0) + (direction === 'next' && this.options.maxDots / 2 === Math.floor(this.options.maxDots / 2) ? 1 : 0)))) {
             const newDot = this.createElement('div', ['crl__dot', 'crl__dot--edge', 'crl__dot--hidden']);
-            newDot.style.setProperty('--duration', `${this.options.transitionDuration}ms`);
+            newDot.style.setProperty('--crl__transition-duration', `${this.options.transitionDuration}ms`);
             let dotToHide;
             if (direction === 'next') {
                 dotToHide = this.navDots.childNodes[0];
@@ -427,7 +427,7 @@ class Carousel {
             newSlide = this.createSlide(['crl__slide', 'crl__slide--inactive', 'crl__slide--hidden']);
             this.renderImg(newSlide.querySelector('img'), this.getSlideIndex((this.options.slidesToShow === 3 ? 2 : 1) * (direction === 'next' ? 1 : -1)));
         }
-        newSlide.style.setProperty('--duration', `${this.options.transitionDuration}ms`);
+        newSlide.style.setProperty('--crl__transition-duration', `${this.options.transitionDuration}ms`);
         this.state.currentIndex = targetIndex;
         if (direction === 'next') {
             this.slider.appendChild(newSlide);

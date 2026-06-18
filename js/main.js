@@ -1,14 +1,18 @@
 'use strict';
 
 // Dependencias de la aplicación
+import { addObserverPosition } from './modules/adjustPosition.js';
 import { cargarJSON } from './modules/json.js';
 import { Carousel } from './modules/carousel.js';
 import { crearMapa } from './modules/map.js';
-import { eventosFormulario } from './modules/formValidation.js';
-import { eventosPresupuesto } from './modules/presupuesto.js';
+import { formEvents } from './modules/formValidation.js';
+import { budgetEvents } from './modules/presupuesto.js';
 
 // Variables globales
 const PAGE_URL = window.location.pathname;
+
+// Se ajustan posiciones y se agrega ResizeObserver al header y al nav
+addObserverPosition();
 
 // Inicialización específica para cada página
 if (PAGE_URL === '/' || PAGE_URL.includes('index.html') || PAGE_URL === '/Endika_Ouvina_trabajoJAVASCRIPT/') {
@@ -44,6 +48,6 @@ if (PAGE_URL === '/' || PAGE_URL.includes('index.html') || PAGE_URL === '/Endika
 } else if (PAGE_URL.includes('contacto.html')) {
     crearMapa();
 } else if (PAGE_URL.includes('presupuesto.html')) {
-    eventosFormulario();
-    eventosPresupuesto();
+    formEvents();
+    budgetEvents();
 }
