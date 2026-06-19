@@ -83,8 +83,14 @@ body > nav:first-of-type {
     top: 0;
     right: var(--mn-header-footer-padding);
 }
-body > nav:first-of-type .col {
+body > nav:first-of-type a {
+    display: inline-block;
+    width: 100%;
+    height: 100%;
     padding: 0.5rem;
+}
+body > nav:first-of-type .col {
+    padding: 0;
 }
 body > nav:first-of-type div[type='button'] {
     display: none;
