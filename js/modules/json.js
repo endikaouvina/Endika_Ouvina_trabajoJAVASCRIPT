@@ -94,7 +94,6 @@ async function cargarJSON(params) {
         // Se crea y se agrega el contenido HTML
         createJSONContent(json);
     } catch (error) {
-        console.log('Error al cargar el JSON:', error);
         Swal.fire({
             topLayer: true,
             icon: 'error',
@@ -104,6 +103,7 @@ async function cargarJSON(params) {
             allowOutsideClick: false,
             allowEscapeKey: false,
         });
+        console.error('Error al cargar el JSON:', error);
     }
 }
 

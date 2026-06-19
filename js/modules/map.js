@@ -63,7 +63,6 @@ function success(position) {
 
 // Función para mostrar el mensaje de error en consola
 function error(err) {
-    console.log('No ha sido posible obtener la geolocalización del usuario. Código: ' + err.code + '. Mensaje: ' + err.message + '.');
     Swal.fire({
         topLayer: true,
         icon: 'error',
@@ -73,6 +72,7 @@ function error(err) {
         allowOutsideClick: false,
         allowEscapeKey: false,
     });
+    console.error('No ha sido posible obtener la geolocalización del usuario. Código: ' + err.code + '. Mensaje: ' + err.message + '.');
 }
 
 // Función para crear el mapa y comprobar la geolocalización
