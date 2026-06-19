@@ -92,7 +92,7 @@ body > nav:first-of-type a {
 body > nav:first-of-type .col {
     padding: 0;
 }
-body > nav:first-of-type div[data-bs-toggle='dropdown'] {
+body > nav:first-of-type #dropdownBtn {
     display: none;
     cursor: pointer;
 }
@@ -190,7 +190,7 @@ i.budget__btn-delete-product {
         background-color: transparent;
         width: fit-content;
     }
-    body > nav:first-of-type div[data-bs-toggle='dropdown'] {
+    body > nav:first-of-type #dropdownBtn {
         display: inline-block;
     }
     body > nav:first-of-type .dropdown-menu {
