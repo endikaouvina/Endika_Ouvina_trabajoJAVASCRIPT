@@ -1,149 +1,149 @@
 <!doctype html>
 <html lang="es">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <link rel="shortcut icon" href="../assets/icons/favicon.ico" type="image/x-icon" />
-        <link rel="stylesheet" href="../css/base/normalize_8.0.1.css" />
-        <link rel="stylesheet" href="../css/vendor/bootstrap_5.3.8.min.css" />
-        <link rel="stylesheet" href="../css/vendor/fontawesome_7.2.0.min.css" />
-        <link rel="stylesheet" href="../css/vendor/brands_7.2.0.min.css" />
-        <link rel="stylesheet" href="../css/vendor/solid_7.2.0.min.css" />
-        <link rel="stylesheet" href="../css/base/typography.css" />
-        <link rel="stylesheet" href="../css/vendor/sweetalert2_11.26.25.min.css" />
-        <link rel="stylesheet" href="../css/styles.css" />
-        <link rel="stylesheet" href="../css/components/table.css" />
-        <title>Presupuesto | MOBINEXIA</title>
-    </head>
-    <body class="d-flex flex-column">
-        <!-- CABECERA -->
-        <header>
-            <div class="container-md">
-                <a href="../" title="Página de inicio de la empresa">
-                    <img src="../assets/icons/logo.png" alt="Logo de la empresa" class="logo" />
-                    <h1>MOBINEXIA</h1>
-                </a>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="../assets/icons/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="../css/base/normalize_8.0.1.css">
+    <link rel="stylesheet" href="../css/vendor/bootstrap_5.3.8.min.css">
+    <link rel="stylesheet" href="../css/vendor/fontawesome_7.2.0.min.css">
+    <link rel="stylesheet" href="../css/vendor/brands_7.2.0.min.css">
+    <link rel="stylesheet" href="../css/vendor/solid_7.2.0.min.css">
+    <link rel="stylesheet" href="../css/base/typography.css">
+    <link rel="stylesheet" href="../css/vendor/sweetalert2_11.26.25.min.css">
+    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="stylesheet" href="../css/components/table.css">
+    <title>Presupuesto | MOBINEXIA</title>
+</head>
+<body class="d-flex flex-column">
+    <!-- CABECERA -->
+    <header>
+        <div class="container-md">
+            <a href="../" title="Página de inicio de la empresa">
+                <img src="../assets/icons/logo.png" alt="Logo de la empresa" class="logo">
+                <h1>MOBINEXIA</h1>
+            </a>
+        </div>
+    </header>
+    <!-- MENÚ DE NAVEGACIÓN -->
+    <nav>
+        <div class="container-md">
+            <div data-bs-toggle="dropdown">
+                <i class="fa-solid fa-bars"></i>
             </div>
-        </header>
-        <!-- MENÚ DE NAVEGACIÓN -->
-        <nav>
-            <div class="container-md">
-                <div type="button" data-bs-toggle="dropdown">
-                    <i class="fa-solid fa-bars"></i>
-                </div>
-                <div class="dropdown-menu dropdown-menu-end row align-items-center justify-content-evenly">
-                    <div class="col"><a href="../">Inicio</a></div>
-                    <div class="col"><a href="./galeria.html">Galería</a></div>
-                    <div class="col active"><a href="./presupuesto.html">Presupuesto</a></div>
-                    <div class="col"><a href="./contacto.html">Contacto</a></div>
-                </div>
+            <div class="dropdown-menu dropdown-menu-end row align-items-center justify-content-evenly">
+                <div class="col"><a href="../">Inicio</a></div>
+                <div class="col"><a href="./galeria.html">Galería</a></div>
+                <div class="col active"><a href="./presupuesto.html">Presupuesto</a></div>
+                <div class="col"><a href="./contacto.html">Contacto</a></div>
             </div>
-        </nav>
-        <!-- CONTENIDO PRINCIPAL -->
-        <main class="budget">
-            <div class="container-md">
-                <h2 class="mt-4">PRESUPUESTO</h2>
-                <p>Por favor, complete el siguiente formulario para solicitar un presupuesto:</p>
-                <div class="row align-items-top justify-content-evenly">
-                    <div class="col">
-                        <form id="form">
-                            <h3>Datos de contacto</h3>
-                            <div class="form-floating">
-                                <input type="text" name="name" id="name" class="form-control" placeholder="Nombre" />
-                                <label for="name">Nombre</label>
+        </div>
+    </nav>
+    <!-- CONTENIDO PRINCIPAL -->
+    <main class="budget">
+        <div class="container-md">
+            <h2 class="mt-4">PRESUPUESTO</h2>
+            <p>Por favor, complete el siguiente formulario para solicitar un presupuesto:</p>
+            <div class="row align-items-top justify-content-evenly">
+                <div class="col">
+                    <form id="form">
+                        <h3>Datos de contacto</h3>
+                        <div class="form-floating">
+                            <input type="text" name="name" id="name" class="form-control" placeholder="Nombre">
+                            <label for="name">Nombre</label>
+                        </div>
+                        <div id="name-error" class="error-msg"></div>
+                        <div class="form-floating mt-3">
+                            <input type="text" name="surnames" id="surnames" class="form-control" placeholder="Apellidos">
+                            <label for="surnames">Apellidos</label>
+                        </div>
+                        <div id="surnames-error" class="error-msg"></div>
+                        <div class="form-floating mt-3">
+                            <input type="tel" name="number" id="number" class="form-control" placeholder="Teléfono">
+                            <label for="number">Teléfono</label>
+                        </div>
+                        <div id="number-error" class="error-msg"></div>
+                        <div class="form-floating mt-3">
+                            <input type="email" name="email" id="email" class="form-control" placeholder="Correo electrónico">
+                            <label for="email">Correo electrónico</label>
+                        </div>
+                        <div id="email-error" class="error-msg"></div>
+                        <h3 class="mt-3">Opciones</h3>
+                        <div class="input-group">
+                            <label for="product" class="input-group-text">Producto</label>
+                            <select name="product" id="product" class="form-select">
+                                <option value="" disabled selected>Seleccione un producto</option>
+                                <option value="Pulverizador - 2.99">Pulverizador - 2,99 €</option>
+                                <option value="Identificador de maletas - 3.99">Identificador de maletas - 3,99 €</option>
+                                <option value="Imanes para coche - 3.99">Imanes para coche - 3,99 €</option>
+                                <option value="Funda para pasaporte - 4.99">Funda para pasaporte - 4,99 €</option>
+                                <option value="Soporte para mesa - 5.99">Soporte para mesa - 5,99 €</option>
+                                <option value="Smart band - 9.99">Smart band - 9,99 €</option>
+                                <option value="Cable de carga - 14.99">Cable de carga - 14,99 €</option>
+                                <option value="Tarjetero soporte - 14.99">Tarjetero soporte - 14,99 €</option>
+                                <option value="Soporte lámpara led - 19.99">Soporte lámpara led - 19,99 €</option>
+                                <option value="Altavoz Bluetooth - 19.99">Altavoz Bluetooth - 19,99 €</option>
+                                <option value="Cargador de pared - 19.99">Cargador de pared - 19,99 €</option>
+                                <option value="Bolso para móvil - 19.99">Bolso para móvil - 19,99 €</option>
+                                <option value="Altavoz karaoke - 39.99">Altavoz karaoke - 39,99 €</option>
+                                <option value="Gimbal multifunción - 49.99">Gimbal multifunción - 49,99 €</option>
+                                <option value="Smartwatch - 49.99">Smartwatch - 49,99 €</option>
+                            </select>
+                            <span class="input-group-text">
+                                <i id="btn-add-product" class="product__btn-add-product fa-solid fa-circle-plus fa-xl"></i>
+                            </span>
+                        </div>
+                        <div id="product-error" class="error-msg"></div>
+                        <div class="input-group mt-3">
+                            <label for="delivery-time" class="input-group-text">Plazo (días)</label>
+                            <input type="number" name="delivery-time" id="delivery-time" class="form-control" placeholder="Plazo (días)" step="1" min="5" max="30">
+                        </div>
+                        <div id="delivery-time-error" class="error-msg"></div>
+                        <div id="extras-options" class="mt-3">
+                            <div class="form-check form-switch d-flex justify-content-center align-content-center">
+                                <input type="checkbox" name="extra1" id="extra1" class="form-check-input me-3" role="switch" value="Embalaje especial - 5">
+                                <label class="form-check-label" for="extra1">Embalaje especial - 5 €</label>
                             </div>
-                            <div id="name-error" class="error-msg"></div>
-                            <div class="form-floating mt-3">
-                                <input type="text" name="surnames" id="surnames" class="form-control" placeholder="Apellidos" />
-                                <label for="surnames">Apellidos</label>
+                            <div class="form-check form-switch d-flex justify-content-center align-content-center mb-3">
+                                <input type="checkbox" name="extra2" id="extra2" class="form-check-input me-3" role="switch" value="Mensaje personalizado - 2">
+                                <label class="form-check-label" for="extra2">Mensaje personalizado - 2 €</label>
                             </div>
-                            <div id="surnames-error" class="error-msg"></div>
-                            <div class="form-floating mt-3">
-                                <input type="tel" name="number" id="number" class="form-control" placeholder="Teléfono" />
-                                <label for="number">Teléfono</label>
-                            </div>
-                            <div id="number-error" class="error-msg"></div>
-                            <div class="form-floating mt-3">
-                                <input type="email" name="email" id="email" class="form-control" placeholder="Correo electrónico" />
-                                <label for="email">Correo electrónico</label>
-                            </div>
-                            <div id="email-error" class="error-msg"></div>
-                            <h3 class="mt-3">Opciones</h3>
-                            <div class="input-group">
-                                <label for="product" class="input-group-text">Producto</label>
-                                <select name="product" id="product" class="form-select">
-                                    <option value="" disabled selected>Seleccione un producto</option>
-                                    <option value="Pulverizador - 2.99">Pulverizador - 2,99 €</option>
-                                    <option value="Identificador de maletas - 3.99">Identificador de maletas - 3,99 €</option>
-                                    <option value="Imanes para coche - 3.99">Imanes para coche - 3,99 €</option>
-                                    <option value="Funda para pasaporte - 4.99">Funda para pasaporte - 4,99 €</option>
-                                    <option value="Soporte para mesa - 5.99">Soporte para mesa - 5,99 €</option>
-                                    <option value="Smart band - 9.99">Smart band - 9,99 €</option>
-                                    <option value="Cable de carga - 14.99">Cable de carga - 14,99 €</option>
-                                    <option value="Tarjetero soporte - 14.99">Tarjetero soporte - 14,99 €</option>
-                                    <option value="Soporte lámpara led - 19.99">Soporte lámpara led - 19,99 €</option>
-                                    <option value="Altavoz Bluetooth - 19.99">Altavoz Bluetooth - 19,99 €</option>
-                                    <option value="Cargador de pared - 19.99">Cargador de pared - 19,99 €</option>
-                                    <option value="Bolso para móvil - 19.99">Bolso para móvil - 19,99 €</option>
-                                    <option value="Altavoz karaoke - 39.99">Altavoz karaoke - 39,99 €</option>
-                                    <option value="Gimbal multifunción - 49.99">Gimbal multifunción - 49,99 €</option>
-                                    <option value="Smartwatch - 49.99">Smartwatch - 49,99 €</option>
-                                </select>
-                                <span class="input-group-text">
-                                    <i id="btn-add-product" class="product__btn-add-product fa-solid fa-circle-plus fa-xl"></i>
-                                </span>
-                            </div>
-                            <div id="product-error" class="error-msg"></div>
-                            <div class="input-group mt-3">
-                                <label for="delivery-time" class="input-group-text">Plazo (días)</label>
-                                <input type="number" name="delivery-time" id="delivery-time" class="form-control" placeholder="Plazo (días)" step="1" min="5" max="30" />
-                            </div>
-                            <div id="delivery-time-error" class="error-msg"></div>
-                            <div id="extras-options" class="mt-3">
-                                <div class="form-check form-switch d-flex justify-content-center align-content-center">
-                                    <input type="checkbox" name="extra1" id="extra1" class="form-check-input me-3" role="switch" value="Embalaje especial - 5" />
-                                    <label class="form-check-label" for="extra1">Embalaje especial - 5 €</label>
-                                </div>
-                                <div class="form-check form-switch d-flex justify-content-center align-content-center mb-3">
-                                    <input type="checkbox" name="extra2" id="extra2" class="form-check-input me-3" role="switch" value="Mensaje personalizado - 2" />
-                                    <label class="form-check-label" for="extra2">Mensaje personalizado - 2 €</label>
-                                </div>
-                            </div>
-                            <div class="form-check d-flex justify-content-center align-content-center">
-                                <input type="checkbox" name="conditions" id="conditions" class="form-check-input me-3" value="Acepto las condiciones de privacidad" />
-                                <label class="form-check-label" for="conditions">Acepto las <a href="#" target="_blank">condiciones de privacidad</a>.</label>
-                            </div>
-                            <div id="conditions-error" class="error-msg mb-3"></div>
-                            <div id="form-actions" class="form__form-actions">
-                                <button type="button" id="btn-reset" class="btn btn-dark mb-3">Resetear formulario</button>
-                                <button type="button" id="btn-submit" class="btn btn-dark mb-3">Enviar formulario</button>
-                            </div>
-                        </form>
-                    </div>
-                    <div id="budget-col" class="col">
-                        <h3>Presupuesto</h3>
-                        <div id="budget" class="table-responsive mb-3"></div>
-                    </div>
+                        </div>
+                        <div class="form-check d-flex justify-content-center align-content-center">
+                            <input type="checkbox" name="conditions" id="conditions" class="form-check-input me-3" value="Acepto las condiciones de privacidad">
+                            <label class="form-check-label" for="conditions">Acepto las <a href="#" target="_blank">condiciones de privacidad</a>.</label>
+                        </div>
+                        <div id="conditions-error" class="error-msg mb-3"></div>
+                        <div id="form-actions" class="form__form-actions">
+                            <button type="button" id="btn-reset" class="btn btn-dark mb-3">Resetear formulario</button>
+                            <button type="button" id="btn-submit" class="btn btn-dark mb-3">Enviar formulario</button>
+                        </div>
+                    </form>
                 </div>
-            </div>
-        </main>
-        <!-- PIE DE PÁGINA -->
-        <footer>
-            <div class="container-md">
-                <div class="row align-items-center justify-content-evenly">
-                    <div class="col">
-                        <a href="https://www.facebook.com/" target="_blank"><i class="fa-brands fa-square-facebook fa-3x"></i></a>
-                        <a href="https://www.instagram.com/" target="_blank"><i class="fa-brands fa-square-instagram fa-3x"></i></a>
-                        <a href="https://x.com/" target="_blank"><i class="fa-brands fa-square-x-twitter fa-3x"></i></a>
-                    </div>
-                    <div class="col">Polígono industrial El Pocito<br />10400 Jaraíz de la Vera<br />Cáceres</div>
-                    <div class="col"><a href="#" title="Aviso legal del sitio web">Aviso legal</a><br /><a href="#" title="Condiciones de privacidad del sitio web">Condiciones de privacidad</a></div>
+                <div id="budget-col" class="col">
+                    <h3>Presupuesto</h3>
+                    <div id="budget" class="table-responsive mb-3"></div>
                 </div>
             </div>
-        </footer>
-        <script src="../js/vendor/sweetalert2_11.26.25.all.min.js"></script>
-        <script type="module" src="../js/main.js"></script>
-        <script src="../js/vendor/jquery_4.0.0.min.js"></script>
-        <script src="../js/vendor/bootstrap_5.3.8.bundle.min.js"></script>
-    </body>
+        </div>
+    </main>
+    <!-- PIE DE PÁGINA -->
+    <footer>
+        <div class="container-md">
+            <div class="row align-items-center justify-content-evenly">
+                <div class="col">
+                    <a href="https://www.facebook.com/" target="_blank"><i class="fa-brands fa-square-facebook fa-3x"></i></a>
+                    <a href="https://www.instagram.com/" target="_blank"><i class="fa-brands fa-square-instagram fa-3x"></i></a>
+                    <a href="https://x.com/" target="_blank"><i class="fa-brands fa-square-x-twitter fa-3x"></i></a>
+                </div>
+                <div class="col">Polígono industrial El Pocito<br>10400 Jaraíz de la Vera<br>Cáceres</div>
+                <div class="col"><a href="#" title="Aviso legal del sitio web">Aviso legal</a><br><a href="#" title="Condiciones de privacidad del sitio web">Condiciones de privacidad</a></div>
+            </div>
+        </div>
+    </footer>
+    <script src="../js/vendor/sweetalert2_11.26.25.all.min.js"></script>
+    <script type="module" src="../js/main.js"></script>
+    <script src="../js/vendor/jquery_4.0.0.min.js"></script>
+    <script src="../js/vendor/bootstrap_5.3.8.bundle.min.js"></script>
+</body>
 </html>

@@ -1,77 +1,77 @@
 <!doctype html>
 <html lang="es">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <link rel="shortcut icon" href="../assets/icons/favicon.ico" type="image/x-icon" />
-        <link rel="stylesheet" href="../css/base/normalize_8.0.1.css" />
-        <link rel="stylesheet" href="../css/vendor/bootstrap_5.3.8.min.css" />
-        <link rel="stylesheet" href="../css/vendor/fontawesome_7.2.0.min.css" />
-        <link rel="stylesheet" href="../css/vendor/brands_7.2.0.min.css" />
-        <link rel="stylesheet" href="../css/vendor/solid_7.2.0.min.css" />
-        <link rel="stylesheet" href="../css/base/typography.css" />
-        <link rel="stylesheet" href="../css/vendor/sweetalert2_11.26.25.min.css" />
-        <link rel="stylesheet" href="../css/vendor/leaflet_1.9.4.css" />
-        <link rel="stylesheet" href="../css/vendor/leaflet-routing-machine_3.2.12.css" />
-        <link rel="stylesheet" href="../css/styles.css" />
-        <link rel="stylesheet" href="../css/components/map.css" />
-        <title>Contacto | MOBINEXIA</title>
-    </head>
-    <body class="d-flex flex-column">
-        <!-- CABECERA -->
-        <header>
-            <div class="container-md">
-                <a href="../" title="Página de inicio de la empresa">
-                    <img src="../assets/icons/logo.png" alt="Logo de la empresa" class="logo" />
-                    <h1>MOBINEXIA</h1>
-                </a>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="../assets/icons/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="../css/base/normalize_8.0.1.css">
+    <link rel="stylesheet" href="../css/vendor/bootstrap_5.3.8.min.css">
+    <link rel="stylesheet" href="../css/vendor/fontawesome_7.2.0.min.css">
+    <link rel="stylesheet" href="../css/vendor/brands_7.2.0.min.css">
+    <link rel="stylesheet" href="../css/vendor/solid_7.2.0.min.css">
+    <link rel="stylesheet" href="../css/base/typography.css">
+    <link rel="stylesheet" href="../css/vendor/sweetalert2_11.26.25.min.css">
+    <link rel="stylesheet" href="../css/vendor/leaflet_1.9.4.css">
+    <link rel="stylesheet" href="../css/vendor/leaflet-routing-machine_3.2.12.css">
+    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="stylesheet" href="../css/components/map.css">
+    <title>Contacto | MOBINEXIA</title>
+</head>
+<body class="d-flex flex-column">
+    <!-- CABECERA -->
+    <header>
+        <div class="container-md">
+            <a href="../" title="Página de inicio de la empresa">
+                <img src="../assets/icons/logo.png" alt="Logo de la empresa" class="logo">
+                <h1>MOBINEXIA</h1>
+            </a>
+        </div>
+    </header>
+    <!-- MENÚ DE NAVEGACIÓN -->
+    <nav>
+        <div class="container-md">
+            <div data-bs-toggle="dropdown">
+                <i class="fa-solid fa-bars"></i>
             </div>
-        </header>
-        <!-- MENÚ DE NAVEGACIÓN -->
-        <nav>
-            <div class="container-md">
-                <div type="button" data-bs-toggle="dropdown">
-                    <i class="fa-solid fa-bars"></i>
-                </div>
-                <div class="dropdown-menu dropdown-menu-end row align-items-center justify-content-evenly">
-                    <div class="col"><a href="../">Inicio</a></div>
-                    <div class="col"><a href="./galeria.html">Galería</a></div>
-                    <div class="col"><a href="./presupuesto.html">Presupuesto</a></div>
-                    <div class="col active"><a href="./contacto.html">Contacto</a></div>
-                </div>
+            <div class="dropdown-menu dropdown-menu-end row align-items-center justify-content-evenly">
+                <div class="col"><a href="../">Inicio</a></div>
+                <div class="col"><a href="./galeria.html">Galería</a></div>
+                <div class="col"><a href="./presupuesto.html">Presupuesto</a></div>
+                <div class="col active"><a href="./contacto.html">Contacto</a></div>
             </div>
-        </nav>
-        <!-- CONTENIDO PRINCIPAL -->
-        <main>
-            <div class="container-md">
-                <h2 class="mt-4">CONTACTO</h2>
-                <div id="map" class="mb-3"></div>
-                <div class="contact-info mb-3">
-                    <p><span>Horario:</span> Lunes a sábado, 10:00-21:00</p>
-                    <p><span>Teléfono:</span> (+34) 927 87 80 76</p>
-                    <p><span>Correo electrónico:</span> info@ejemplo.com</p>
-                </div>
+        </div>
+    </nav>
+    <!-- CONTENIDO PRINCIPAL -->
+    <main>
+        <div class="container-md">
+            <h2 class="mt-4">CONTACTO</h2>
+            <div id="map" class="mb-3"></div>
+            <div class="contact-info mb-3">
+                <p><span>Horario:</span> Lunes a sábado, 10:00-21:00</p>
+                <p><span>Teléfono:</span> (+34) 927 87 80 76</p>
+                <p><span>Correo electrónico:</span> info@ejemplo.com</p>
             </div>
-        </main>
-        <!-- PIE DE PÁGINA -->
-        <footer>
-            <div class="container-md">
-                <div class="row align-items-center justify-content-evenly">
-                    <div class="col">
-                        <a href="https://www.facebook.com/" target="_blank"><i class="fa-brands fa-square-facebook fa-3x"></i></a>
-                        <a href="https://www.instagram.com/" target="_blank"><i class="fa-brands fa-square-instagram fa-3x"></i></a>
-                        <a href="https://x.com/" target="_blank"><i class="fa-brands fa-square-x-twitter fa-3x"></i></a>
-                    </div>
-                    <div class="col">Polígono industrial El Pocito<br />10400 Jaraíz de la Vera<br />Cáceres</div>
-                    <div class="col"><a href="#" title="Aviso legal del sitio web">Aviso legal</a><br /><a href="#" title="Condiciones de privacidad del sitio web">Condiciones de privacidad</a></div>
+        </div>
+    </main>
+    <!-- PIE DE PÁGINA -->
+    <footer>
+        <div class="container-md">
+            <div class="row align-items-center justify-content-evenly">
+                <div class="col">
+                    <a href="https://www.facebook.com/" target="_blank"><i class="fa-brands fa-square-facebook fa-3x"></i></a>
+                    <a href="https://www.instagram.com/" target="_blank"><i class="fa-brands fa-square-instagram fa-3x"></i></a>
+                    <a href="https://x.com/" target="_blank"><i class="fa-brands fa-square-x-twitter fa-3x"></i></a>
                 </div>
+                <div class="col">Polígono industrial El Pocito<br>10400 Jaraíz de la Vera<br>Cáceres</div>
+                <div class="col"><a href="#" title="Aviso legal del sitio web">Aviso legal</a><br><a href="#" title="Condiciones de privacidad del sitio web">Condiciones de privacidad</a></div>
             </div>
-        </footer>
-        <script src="../js/vendor/sweetalert2_11.26.25.all.min.js"></script>
-        <script src="../js/vendor/leaflet_1.9.4.js"></script>
-        <script src="../js/vendor/leaflet-routing-machine_3.2.12.min.js"></script>
-        <script type="module" src="../js/main.js"></script>
-        <script src="../js/vendor/jquery_4.0.0.min.js"></script>
-        <script src="../js/vendor/bootstrap_5.3.8.bundle.min.js"></script>
-    </body>
+        </div>
+    </footer>
+    <script src="../js/vendor/sweetalert2_11.26.25.all.min.js"></script>
+    <script src="../js/vendor/leaflet_1.9.4.js"></script>
+    <script src="../js/vendor/leaflet-routing-machine_3.2.12.min.js"></script>
+    <script type="module" src="../js/main.js"></script>
+    <script src="../js/vendor/jquery_4.0.0.min.js"></script>
+    <script src="../js/vendor/bootstrap_5.3.8.bundle.min.js"></script>
+</body>
 </html>

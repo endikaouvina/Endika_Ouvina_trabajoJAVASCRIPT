@@ -83,6 +83,9 @@ body > nav:first-of-type {
     top: 0;
     right: var(--mn-header-footer-padding);
 }
+body > nav:first-of-type [data-bs-toggle='dropdown'] {
+    cursor: pointer;
+}
 body > nav:first-of-type a {
     display: inline-block;
     width: 100%;
