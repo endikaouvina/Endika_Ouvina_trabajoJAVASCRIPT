@@ -83,9 +83,6 @@ body > nav:first-of-type {
     top: 0;
     right: var(--mn-header-footer-padding);
 }
-body > nav:first-of-type [data-bs-toggle='dropdown'] {
-    cursor: pointer;
-}
 body > nav:first-of-type a {
     display: inline-block;
     width: 100%;
@@ -95,8 +92,9 @@ body > nav:first-of-type a {
 body > nav:first-of-type .col {
     padding: 0;
 }
-body > nav:first-of-type div[type='button'] {
+body > nav:first-of-type div[data-bs-toggle='dropdown'] {
     display: none;
+    cursor: pointer;
 }
 body > nav:first-of-type .dropdown-menu {
     display: flex;
@@ -192,7 +190,7 @@ i.budget__btn-delete-product {
         background-color: transparent;
         width: fit-content;
     }
-    body > nav:first-of-type div[type='button'] {
+    body > nav:first-of-type div[data-bs-toggle='dropdown'] {
         display: inline-block;
     }
     body > nav:first-of-type .dropdown-menu {
