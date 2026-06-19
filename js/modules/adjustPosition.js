@@ -6,7 +6,7 @@ function adjustPosition() {
     const headerHeight = document.querySelector('body > header').getBoundingClientRect().height;
     const navHeight = document.querySelector('body > nav:first-of-type').getBoundingClientRect().height;
     const nav = document.querySelector('body > nav:first-of-type');
-    const navButton = nav.querySelector('div[type="button"]');
+    const navButton = nav.querySelector('div[data-bs-toggle="dropdown"]');
     const navDropdownMenu = nav.querySelector('.dropdown-menu');
     const main = document.querySelector('body > main:first-of-type');
 
