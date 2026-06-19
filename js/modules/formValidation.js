@@ -242,25 +242,32 @@ function submitForm() {
         /*
             Aquí se crearía un JSON y se enviaría al archivo correspondiente del servidor para que el formulario quede registrado donde corresponda
         */
+        Swal.fire({
+            topLayer: true,
+            icon: 'success',
+            title: '¡Formulario enviado correctamente!',
+            confirmButtonText: 'Aceptar',
+            allowOutsideClick: false,
+            allowEscapeKey: false,
+        });
         resetForm();
-        alert('Formulario enviado correctamente.');
     } else {
         // Si algún campo no está validado o no se ha seleccionado ningún producto, se genera el mensaje de error
-        let submitMsg = '';
+        let errorMsg = '';
 
         // Función para el comienzo de los errores de campos vacíos y campos no validados
         function fieldsMsg(array) {
             if (array.length === 1) {
-                submitMsg += 'El campo ';
+                errorMsg += '<p>El campo ';
             } else if (array.length > 1) {
-                submitMsg += 'Los campos ';
+                errorMsg += '<p>Los campos ';
             }
             array.forEach((field, index) => {
-                submitMsg += field;
+                errorMsg += `<i>${field}</i>`;
                 if (index < array.length - 2) {
-                    submitMsg += ', ';
+                    errorMsg += ', ';
                 } else if (index < array.length - 1) {
-                    submitMsg += ' y ';
+                    errorMsg += ' y ';
                 }
             });
         }
@@ -268,43 +275,51 @@ function submitForm() {
         // Se detectan los campos vacíos
         fieldsMsg(emptyFields);
         if (emptyFields.length === 1) {
-            submitMsg += ' no está completado.';
+            errorMsg += ' no está completado.</p>';
         } else if (emptyFields.length > 1) {
-            submitMsg += ' no están completados.';
+            errorMsg += ' no están completados.</p>';
         }
 
         // Se detectan los campos no validados
         if (emptyFields.length > 0 && noValidatedFields.length > 0) {
-            submitMsg += ' ';
+            errorMsg += ' ';
         }
         fieldsMsg(noValidatedFields);
         if (noValidatedFields.length === 1) {
-            submitMsg += ' tiene un formato no válido.';
+            errorMsg += ' tiene un formato no válido.<p>';
         } else if (noValidatedFields.length > 1) {
-            submitMsg += ' tienen formatos no válidos.';
+            errorMsg += ' tienen formatos no válidos.</p>';
         }
 
         // Se detecta si se ha seleccionado algún producto
         if ((emptyFields.length > 0 || noValidatedFields.length > 0) && cartItems.length === 0) {
-            submitMsg += ' ';
+            errorMsg += ' ';
         }
         if (cartItems.length === 0) {
-            submitMsg += 'No se ha seleccionado ningún producto.';
+            errorMsg += '<p>No se ha seleccionado ningún producto.</p>';
         }
 
         // Se detecta si se han aceptado las condiciones
         if ((emptyFields.length > 0 || noValidatedFields.length > 0 || cartItems.length === 0) && !CONDITIONS_INPUT.checked) {
-            submitMsg += ' ';
+            errorMsg += ' ';
         }
         if (!CONDITIONS_INPUT.checked) {
             CONDITIONS_INPUT.classList.add('is-invalid');
             CONDITIONS_ERROR.classList.add('mt-1');
             CONDITIONS_ERROR.innerHTML = '<span class="text-danger"><i class="fa-solid fa-xmark me-2"></i>Condiciones de privacidad aceptadas.</span>';
-            submitMsg += 'No se han aceptado las condiciones de privacidad.';
+            errorMsg += '<p>No se han aceptado las condiciones de privacidad.</p>';
         }
 
         // Se muestra el mensaje de error
-        alert(submitMsg);
+        Swal.fire({
+            topLayer: true,
+            icon: 'info',
+            title: '¡No es posible enviar el formulario!',
+            html: errorMsg,
+            confirmButtonText: 'Aceptar',
+            allowOutsideClick: false,
+            allowEscapeKey: false,
+        });
     }
 }
 
@@ -351,9 +366,23 @@ function formEvents() {
         CONDITIONS_ERROR.innerHTML = '';
     });
     BTN_RESET.addEventListener('click', () => {
-        if (confirm('¿Seguro que quieres resetear? Se resetearán todos los campos y se eliminará el presupuesto.')) {
-            resetForm();
-        }
+        Swal.fire({
+            topLayer: true,
+            icon: 'question',
+            title: '¿Seguro que quieres resetear?',
+            text: 'Se resetearán todos los campos y se eliminará el presupuesto.',
+            confirmButtonText: 'Resetear',
+            confirmButtonColor: '#dc3741',
+            showCancelButton: true,
+            cancelButtonText: 'Volver',
+            reverseButtons: true,
+            allowOutsideClick: false,
+            allowEscapeKey: false,
+        }).then((result) => {
+            if (result.isConfirmed) {
+                resetForm();
+            }
+        });
     });
     BTN_SUBMIT.addEventListener('click', submitForm);
     addObserverPosition();

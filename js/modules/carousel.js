@@ -24,9 +24,9 @@ class Carousel {
 
     constructor(options) {
         if (!options) {
-            this.errorMsg.push('No se ha especificado ninguna opción. Las opciones "container" e "images" son obligatorias.');
+            this.errorMsg.push('<p>No se ha especificado ninguna opción. Las opciones <i>container</i> e <i>images</i> son obligatorias.</p>');
         } else if (Object.getPrototypeOf(options) !== Object.prototype) {
-            this.errorMsg.push('Las opciones tienen que estar en formato de objeto literal.');
+            this.errorMsg.push('<p>Las opciones tienen que estar en formato de objeto literal.</p>');
         } else {
             // Se valida la información introducida por el usuario
             this.validateContainer(options);
@@ -59,13 +59,13 @@ class Carousel {
     // Función para validar la opción 'container' de la instancia
     validateContainer(options) {
         if (options === undefined || !Object.hasOwn(options, 'container')) {
-            this.errorMsg.push('La opción "container" es obligatoria.');
+            this.errorMsg.push('<p>La opción <i>container</i> es obligatoria.</p>');
             return;
         }
         try {
             this.container = document.querySelector(options.container);
         } catch {
-            this.errorMsg.push(`'${options.container}' no es un selector válido.`);
+            this.errorMsg.push(`<p><i>${options.container}</i> no es un selector válido.</p>`);
             return;
         }
         if (!this.container) {
@@ -75,32 +75,32 @@ class Carousel {
             } else if (options.container.startsWith('.')) {
                 attr = 'con clase ';
             }
-            this.errorMsg.push(`No existe el elemento ${attr}"` + (attr !== '' ? options.container.substr(1) : options.container) + '" en el DOM.');
+            this.errorMsg.push(`<p>No existe el elemento ${attr}<i>` + (attr !== '' ? options.container.substr(1) : options.container) + '</i> en el DOM.</p>');
         }
     }
     // Función para validar la opción 'images' de la instancia
     validateImages(options) {
         if (options === undefined || !Object.hasOwn(options, 'images')) {
-            this.errorMsg.push('La opción "images" es obligatoria.');
+            this.errorMsg.push('<p>La opción <i>images</i> es obligatoria.</p>');
             return;
         }
         if (!Array.isArray(options.images)) {
-            this.errorMsg.push('La opción "images" debe ser un array.');
+            this.errorMsg.push('<p>La opción <i>images</i> debe ser un array.</p>');
             return;
         }
         if (options.images.length === 0) {
-            this.errorMsg.push('La opción "images" debe contener, al menos, una imagen.');
+            this.errorMsg.push('<p>La opción <i>images</i> debe contener, al menos, una imagen.</p>');
             return;
         }
         options.images.forEach((image, index) => {
             if (Object.getPrototypeOf(image) !== Object.prototype) {
-                this.errorMsg.push(`La imagen ${index} debe ser un objeto literal.`);
+                this.errorMsg.push(`<p>La imagen <strong>${index}</strong> debe ser un objeto literal.</p>`);
             } else if (!Object.hasOwn(image, 'src')) {
-                this.errorMsg.push(`La imagen ${index} no tiene 'src'.`);
+                this.errorMsg.push(`<p>La imagen <strong>${index}</strong> no tiene <i>src</i>.</p>`);
             } else if (typeof image.src !== 'string') {
-                this.errorMsg.push(`La clave 'src' de la imagen ${index} tiene que ser de tipo string (cadena).`);
+                this.errorMsg.push(`<p>La clave <i>src</i> de la imagen <strong>${index}</strong> tiene que ser de tipo string (cadena).</p>`);
             } else if (image.src === '') {
-                this.errorMsg.push(`La clave 'src' de la imagen ${index} no debe estar vacía.`);
+                this.errorMsg.push(`<p>La clave <i>src</i> de la imagen <strong>${index}</strong> no debe estar vacía.</p>`);
             }
         });
     }
@@ -125,7 +125,7 @@ class Carousel {
                     break;
                 default:
                     if (key !== 'container' && key !== 'images') {
-                        this.errorMsg.push(`No se reconoce la opción ${key}.`);
+                        this.errorMsg.push(`<p>No se reconoce la opción <i>${key}</i>.</p>`);
                     }
                     break;
             }
@@ -134,7 +134,7 @@ class Carousel {
     // Función para validar el valor de todas las opciones excepto 'container' e 'images'
     validateValue(options, key, value, type, min) {
         if (typeof value !== type) {
-            this.errorMsg.push(`La opción "${key}" debe ser de tipo ${type}. Se inicializará con su valor por defecto: ${Carousel.defaultOptions[key]}`);
+            this.errorMsg.push(`<p>La opción <i>${key}</i> debe ser de tipo <i>${type}</i>.</p>`);
             return;
         }
         if (key === 'slidesToShow') {
@@ -146,8 +146,7 @@ class Carousel {
     // Función para validar los valores de tipo number
     validateNumber(options, key, value, min) {
         if (!Number.isInteger(value) || value < min || (key !== 'transitionDuration' && value > options.images.length - 1)) {
-            let msg = '';
-            msg += `La opción "${key}" debe ser`;
+            let msg = `<p>La opción <i>${key}</i> debe ser`;
             if (!Number.isInteger(value)) {
                 msg += ' un número entero';
             }
@@ -162,16 +161,16 @@ class Carousel {
                     msg += ' menor que el total de imágenes añadidas en la opción "images"';
                 }
             }
-            msg += '.';
+            msg += '.</p>';
             this.errorMsg.push(msg);
         }
     }
     // Función para validar el valor de la opción slidesToShow
     validateSlidesToShow(options, key, value) {
         if (options.images.length < 3 && value !== 1) {
-            this.errorMsg.push(`Al haber menos de 3 imágenes, la opción "${key}" solo puede tener el valor 1.`);
+            this.errorMsg.push(`<p>Al haber menos de 3 imágenes, la opción <i>${key}</i> solo puede tener el valor 1.</p>`);
         } else if (options.images.length >= 3 && value !== 1 && value !== 3) {
-            this.errorMsg.push(`La opción "${key}" solo puede tener los valores 1 y 3.`);
+            this.errorMsg.push(`<p>La opción <i>${key}</i> solo puede tener los valores 1 y 3.</p>`);
         }
     }
 
@@ -498,7 +497,19 @@ class Carousel {
     /* FUNCIÓN PARA MOSTRAR ERRORES */
 
     showErrors() {
-        this.errorMsg.forEach((msg) => console.log(msg));
+        let msgHTML = '';
+        this.errorMsg.forEach((msg) => {
+            msgHTML += msg;
+        });
+        Swal.fire({
+            topLayer: true,
+            icon: 'info',
+            title: '¡No es posible cargar el carrusel!',
+            html: msgHTML,
+            confirmButtonText: 'Aceptar',
+            allowOutsideClick: false,
+            allowEscapeKey: false,
+        });
     }
 }
 

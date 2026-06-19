@@ -2,6 +2,9 @@
 
 ## Indicaciones para el/la profesor/a que me corrija el trabajo
 
+json.js, error
+map.js, código y mensaje del error
+
 ## Direcciones del trabajo
 
 **Dirección del respositorio de GitHub:** [https://github.com/endikaouvina/Endika_Ouvina_trabajoJAVASCRIPT.git](https://github.com/endikaouvina/Endika_Ouvina_trabajoJAVASCRIPT.git)

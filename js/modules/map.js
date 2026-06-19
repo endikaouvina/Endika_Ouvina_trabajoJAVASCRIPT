@@ -64,6 +64,15 @@ function success(position) {
 // Función para mostrar el mensaje de error en consola
 function error(err) {
     console.log('No ha sido posible obtener la geolocalización del usuario. Código: ' + err.code + '. Mensaje: ' + err.message + '.');
+    Swal.fire({
+        topLayer: true,
+        icon: 'error',
+        title: '¡Ha habido un error!',
+        text: 'No ha sido posible obtener la geolocalización del usuario. No se añadirá la ruta al mapa.',
+        confirmButtonText: 'Aceptar',
+        allowOutsideClick: false,
+        allowEscapeKey: false,
+    });
 }
 
 // Función para crear el mapa y comprobar la geolocalización
@@ -73,7 +82,15 @@ function createMap() {
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(success, error, options);
     } else {
-        alert('Los servicios de geolocalización no están disponibles.');
+        Swal.fire({
+            topLayer: true,
+            icon: 'error',
+            title: '¡Ha habido un error!',
+            text: 'Los servicios de geolocalización no están disponibles. No se añadirá la ruta al mapa.',
+            confirmButtonText: 'Aceptar',
+            allowOutsideClick: false,
+            allowEscapeKey: false,
+        });
     }
 }
 

@@ -37,13 +37,6 @@ if (PAGE_URL === '/' || PAGE_URL.includes('index.html') || PAGE_URL === '/Endika
             { src: '../assets/img/soporte_para_mesa.jpg', alt: 'Soporte para mesa' },
             { src: '../assets/img/tarjetero_soporte.jpg', alt: 'Tarjetero soporte' },
         ],
-        loop: true,
-        maxDots: 7,
-        showControls: true,
-        showDots: true,
-        slidesToShow: 3,
-        startIndex: 0,
-        transitionDuration: 200,
     });
 } else if (PAGE_URL.includes('contacto.html')) {
     createMap();
